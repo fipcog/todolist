@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { FilterType } from "../App";
 
 export type TaskType = {
-    id: number
+    id: string
     isChecked: boolean
     name: string
 }
@@ -13,30 +13,48 @@ export type TasksType = TaskType[]
 type TodoListKardPropsType = {
     title: string
     tasks: TaskType[]
-    removeTaskHandler: (id: number) => void
+    removeTaskHandler: (id: string) => void
     changeFilterHandler: (filterParameter: FilterType) => void
+    addTask: (taskName: string) => void
 }
 
 export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
 
-    const { title, tasks, removeTaskHandler, changeFilterHandler } = props
+    const { title, tasks, removeTaskHandler, changeFilterHandler, addTask } = props
 
-    const ListItems = tasks.map((task, i) => {
-        return <li key={i}>
+    const [inputValue, setInputValue] = useState<string>("")
+
+    const ListItems = tasks.map((task) => {
+        return <li key={task.id}>
             <input type="checkbox" checked={task.isChecked} />
             <span>{task.name}</span>
             <button onClick={()=>removeTaskHandler(task.id)}>x</button>
         </li>
     })
 
+    const onClickAddTaskHandler = (): void => {
+        addTask(inputValue)
+        setInputValue("")
+    }
+
+    const onInputBtnPressHandler = (e:KeyboardEvent<HTMLInputElement>):void => {
+        if (e.code === "Enter") {
+            addTask(inputValue)
+            setInputValue("")
+        }
+    }
+
+    const onInputChangeHandler = (e:ChangeEvent<HTMLInputElement>): void => {
+        setInputValue(e.currentTarget.value)
+    }
 
     return (
         <div className="App">
             <div>
                 <h3>{title}</h3>
                 <div>
-                    <input />
-                    <button>+</button>
+                    <input value={inputValue} onChange={onInputChangeHandler} onKeyDown={onInputBtnPressHandler}/>
+                    <button onClick={onClickAddTaskHandler}>+</button>
                 </div>
                 {tasks.length ? <ul>{ListItems}</ul> : <ul>No task found</ul>}
                 <div>

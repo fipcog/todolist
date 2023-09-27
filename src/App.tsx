@@ -8,20 +8,24 @@ function App() {
 
     const title: string = "Task Title"
     const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: 1, isChecked: true, name:'HTML&CSS'},
-        {id: 2, isChecked: false, name:'JS'},
-        {id: 3, isChecked: false, name:'React'},
-        {id: 4, isChecked: false, name:'Redux'}
+        {id: crypto.randomUUID(), isChecked: true, name:'HTML&CSS'},
+        {id: crypto.randomUUID(), isChecked: false, name:'JS'},
+        {id: crypto.randomUUID(), isChecked: false, name:'React'},
+        {id: crypto.randomUUID(), isChecked: false, name:'Redux'}
     ])
     const [filter, setFilter] = useState<FilterType>('all')
 
-    const removeTaskHandler = (id: number) :void => {
+    const removeTaskHandler = (id: string): void => {
         const filteredTasks = tasks.filter(task => task.id !== id)
         setTasks(filteredTasks)
     }
 
-    const changeFilterHandler = (filterParameter: FilterType):void => {
+    const changeFilterHandler = (filterParameter: FilterType): void => {
         setFilter(filterParameter)
+    }
+
+    const addTask = (taskName: string): void => {
+        setTasks([{id: crypto.randomUUID(), isChecked: false, name: taskName}, ...tasks])
     }
 
     let filteredTasks: TasksType
@@ -40,7 +44,12 @@ function App() {
     }
 
     return (
-        <TodoListKard title={title} tasks={filteredTasks} removeTaskHandler={removeTaskHandler} changeFilterHandler={changeFilterHandler}/>
+        <TodoListKard   title={title} 
+                        tasks={filteredTasks} 
+                        removeTaskHandler={removeTaskHandler} 
+                        changeFilterHandler={changeFilterHandler}
+                        addTask={addTask}
+        />
     );
 }
 
