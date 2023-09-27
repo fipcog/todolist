@@ -1,0 +1,231 @@
+.todolist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 320px;
+    min-height: 350px;
+
+    padding: 30px 0px;
+
+    color: purple;
+    background-color: rgb(247, 247, 247);
+    border: 3px solid rgb(175, 0, 175);
+    border-radius: 10px;
+}
+
+.todolist_content_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+
+    width: 80%;
+    
+    font-size: 1.2em;
+} 
+
+.todolist_content_wrapper h3 {
+    font-size: 2em;
+    margin: 0;
+    margin-bottom: 20px;
+
+    text-align: center;
+    color: rgb(175, 0, 175);
+}
+
+.todolist_input_wrapper {
+    display: block;
+    position: relative;
+}
+
+.todolist_input_wrapper input {
+    width: 100%;
+    height: 30px;
+
+    padding: 5px;
+    padding-right: 30px;
+
+    border: 2px solid rgb(175, 0, 175);
+    border-radius: 10px;
+    background-color: rgb(247, 247, 247);
+    color: purple;
+    &:focus, &:hover {
+        outline-color: purple;
+    }
+}
+
+.todolist_input_wrapper button {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    margin-left: 5px;
+    padding: 0;
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 12px;
+        width: 22px;
+        height: 3px;
+
+        background-color: rgb(175, 0, 175);
+        transform: rotate(90deg);
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 12px;
+        width: 22px;
+        height: 3px;
+
+        background-color: rgb(175, 0, 175);
+    }
+
+    &:hover {
+        &::before, &::after {
+            background-color: purple;
+        }
+    }
+}
+
+.task_list {
+    padding: 0;
+    padding-left: 15px;
+}
+
+.task_list input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.task_list input + label {
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+
+    margin-right: 5px;
+
+    border: 1px solid rgb(175, 0, 175);
+    cursor: pointer;
+    transition: .2s;
+
+    &:hover {
+        background-color: rgb(175, 0, 175);
+    }
+}
+
+.task_list input:checked + label {
+    background-color: rgb(175, 0, 175);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        left: 1px;
+        width: 15px;
+        height: 2px;
+
+        background-color: white;
+        transform: rotate(115deg);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 9.5px;
+        left: 1px;
+        width: 6px;
+        height: 2px;
+
+        background-color: white;
+        transform: rotate(35deg);
+    }
+
+    &:hover {
+        background-color: purple;
+    }
+}
+
+.task_list button {
+    position: relative;
+    top: -3px;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    margin-left: 5px;
+    padding: 0;
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 12px;
+        width: 22px;
+        height: 3px;
+
+        background-color: rgb(175, 0, 175);
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 12px;
+        width: 22px;
+        height: 3px;
+
+        background-color: rgb(175, 0, 175);
+        transform: rotate(-45deg);
+    }
+
+    &:hover {
+        &::before, &::after {
+            background-color: purple;
+        }
+    }
+}
+
+.filter_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.filter_wrapper button{    
+    font-size: 1em;
+
+    background-color: transparent;
+    color: rgb(175, 0, 175);
+    border: 2px solid rgb(175, 0, 175);
+    border-radius: 7px;
+
+    cursor: pointer;
+    transition: .2s;
+
+    &:hover {
+        color: white;
+        border: 2px solid purple;
+        background-color: purple;
+    }
+}

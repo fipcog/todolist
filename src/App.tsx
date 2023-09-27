@@ -15,6 +15,14 @@ function App() {
     ])
     const [filter, setFilter] = useState<FilterType>('all')
 
+    const toggleIsChecked = (taskId: string) => {
+        const newArr = tasks.map(item => {
+            if(item.id === taskId) return {...item, isChecked: !item.isChecked}
+            return item
+        })
+        setTasks(newArr)
+    }
+
     const removeTaskHandler = (id: string): void => {
         const filteredTasks = tasks.filter(task => task.id !== id)
         setTasks(filteredTasks)
@@ -49,6 +57,7 @@ function App() {
                         removeTaskHandler={removeTaskHandler} 
                         changeFilterHandler={changeFilterHandler}
                         addTask={addTask}
+                        toggleIsChecked={toggleIsChecked}
         />
     );
 }
