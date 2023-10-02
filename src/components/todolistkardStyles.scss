@@ -212,7 +212,7 @@
     justify-content: space-evenly;
 }
 
-.filter_wrapper button{    
+.filter_wrapper button {    
     font-size: 1em;
 
     background-color: transparent;
@@ -228,4 +228,18 @@
         border: 2px solid purple;
         background-color: purple;
     }
+
+    &.active {
+        color: white;
+        border: 2px solid purple;
+        background-color: purple;
+    }
+}
+
+.error_massage {
+    color: red;
+}
+
+.task_done {
+    font-weight: bold;
 }
