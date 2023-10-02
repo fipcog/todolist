@@ -17,8 +17,7 @@ function App() {
 
     const toggleIsChecked = (taskId: string) => {
         const newArr: TaskType[] = tasks.map(item => {
-            if(item.id === taskId) return {...item, isChecked: !item.isChecked}
-            return item
+            return item.id === taskId ? {...item, isChecked: !item.isChecked} : item
         })
         setTasks(newArr)
     }
