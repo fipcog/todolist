@@ -59,7 +59,7 @@ function App() {
     }
 
     return (
-        <>
+        <div className='board'>
         {
             todolists.map(tdList => {
                 return (
@@ -76,7 +76,7 @@ function App() {
                 )
             })
         }
-        </>
+        </div>
     );
 }
 

@@ -1,8 +1,17 @@
-.App {
+/* .App {
   padding: 30px;
   display: flex;
-}
+} */
 
-.App > div {
-  margin-right: 50px;
+.board {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 80px 8%;
+
+  min-width: 100vw;
+  min-width: 100vh;
+
+  padding: 100px;
 }
