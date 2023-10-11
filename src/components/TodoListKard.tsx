@@ -11,15 +11,16 @@ export type TaskType = {
 type TasksType = TaskType[]
 
 type TodoListKardPropsType = {
-    id: string
+    todolistID: string
     title: string
     tasks: TaskType[]
     removeTask: (todolistID: string, taskID: string) => void
     addTask: (todolistID: string, taskName: string) => void
     toggleIsChecked: (todolistID: string, taskID: string) => void
+    removeTodolist: (todolistID: string) => void
 }
 
-export const TodoListKard: React.FC<TodoListKardPropsType> = ({ id, title, tasks, removeTask, addTask, toggleIsChecked }) => {
+export const TodoListKard: React.FC<TodoListKardPropsType> = ({ todolistID, title, tasks, removeTask, addTask, toggleIsChecked, removeTodolist }) => {
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)
@@ -41,8 +42,8 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = ({ id, title, tasks
     }
 
     const ListItems = filteredTasks.map((task) => {
-        const toggleIsCheckedHandler = () => { toggleIsChecked(id ,task.id) }
-        const removeTaskHandler = () => { removeTask(id, task.id) }
+        const toggleIsCheckedHandler = () => { toggleIsChecked(todolistID ,task.id) }
+        const removeTaskHandler = () => { removeTask(todolistID, task.id) }
 
         return <li key={task.id}>
             <input id={task.id} type="checkbox" checked={task.isDone} />
@@ -52,6 +53,10 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = ({ id, title, tasks
         </li>
     })
 
+    const removeTodolistHendler = () => {
+        removeTodolist(todolistID)
+    }
+
     const changeFilterHandler = (filterParameter: FilterType): void => { setFilter(filterParameter)}
 
     const addNewTask = (): void => {
@@ -59,7 +64,7 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = ({ id, title, tasks
             setErrorMassage("Title is required")
             return
         }
-        addTask(id, inputValue.trim())
+        addTask(todolistID, inputValue.trim())
         setInputValue("")
         setErrorMassage(null)
     }
@@ -80,6 +85,7 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = ({ id, title, tasks
 
     return (
         <div className="todolist">
+            <button onClick={removeTodolistHendler}/>
             <div className="todolist_content_wrapper">
                 <h3>{title}</h3>
                 <div className="todolist_input_wrapper">

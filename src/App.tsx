@@ -53,19 +53,25 @@ function App() {
         setTasks({...tasks, [todolistID]: [{id:crypto.randomUUID(), title: taskName, isDone: false}, ...tasks[todolistID]]})
     }
 
+    const removeTodolist = (todolistID: string) => {
+        setTodolists(todolists.filter(tdList => tdList.id !== todolistID))
+        delete tasks[todolistID]
+    }
+
     return (
         <>
         {
-            todolists.map(tdlist => {
+            todolists.map(tdList => {
                 return (
                     <TodoListKard   
-                        key = {tdlist.id}
-                        id = {tdlist.id}
-                        title = {tdlist.title} 
-                        tasks = {tasks[tdlist.id]} 
+                        key = {tdList.id}
+                        todolistID = {tdList.id}
+                        title = {tdList.title} 
+                        tasks = {tasks[tdList.id]} 
                         removeTask = {removeTask} 
                         addTask = {addTask}
                         toggleIsChecked = {toggleIsChecked}
+                        removeTodolist = {removeTodolist}
                     />
                 )
             })
