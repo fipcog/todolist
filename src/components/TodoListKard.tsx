@@ -14,14 +14,12 @@ type TodoListKardPropsType = {
     id: string
     title: string
     tasks: TaskType[]
-    removeTaskHandler: (id: string) => void
-    addTask: (taskName: string) => void
-    toggleIsChecked: (taskId: string) => void
+    removeTask: (todolistID: string, taskID: string) => void
+    addTask: (todolistID: string, taskName: string) => void
+    toggleIsChecked: (todolistID: string, taskID: string) => void
 }
 
-export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
-
-    const { title, tasks, removeTaskHandler, addTask, toggleIsChecked } = props
+export const TodoListKard: React.FC<TodoListKardPropsType> = ({ id, title, tasks, removeTask, addTask, toggleIsChecked }) => {
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)
@@ -43,31 +41,30 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
     }
 
     const ListItems = filteredTasks.map((task) => {
+        const toggleIsCheckedHandler = () => { toggleIsChecked(id ,task.id) }
+        const removeTaskHandler = () => { removeTask(id, task.id) }
+
         return <li key={task.id}>
             <input id={task.id} type="checkbox" checked={task.isDone} />
-            <label htmlFor={task.id} onClick={() => toggleIsChecked(task.id)}></label>
+            <label htmlFor={task.id} onClick={toggleIsCheckedHandler}></label>
             <span className={task.isDone ? "task_done" : ""}>{task.title}</span>
-            <button onClick={() => removeTaskHandler(task.id)}>x</button>
+            <button onClick={removeTaskHandler}>x</button>
         </li>
     })
 
-    const changeFilterHandler = (filterParameter: FilterType): void => {
-        setFilter(filterParameter)
-    }
+    const changeFilterHandler = (filterParameter: FilterType): void => { setFilter(filterParameter)}
 
-    const addNewTask = () => {
+    const addNewTask = (): void => {
         if(inputValue.trim() === "") {
             setErrorMassage("Title is required")
             return
         }
-        addTask(inputValue.trim())
+        addTask(id, inputValue.trim())
         setInputValue("")
         setErrorMassage(null)
     }
 
-    const onClickAddTaskHandler = (): void => {
-        addNewTask()    
-    }
+    const onClickAddTaskHandler = (): void => { addNewTask() }
 
     const onInputBtnPressHandler = (e:KeyboardEvent<HTMLInputElement>):void => {
         if (e.code === "Enter") {

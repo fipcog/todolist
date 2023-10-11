@@ -41,36 +41,17 @@ function App() {
         ]
     });
 
-    const toggleIsChecked = (taskId: string) => {
-        // const newArr: TaskType[] = tasks.map(item => {
-        //     return item.id === taskId ? {...item, isChecked: !item.isChecked} : item
-        // })
-        // setTasks(newArr)
+    const toggleIsChecked = (todolistID: string, taskID: string) => {
+        setTasks({...tasks, [todolistID]: [...tasks[todolistID].map(task => task.id === taskID ? {...task, isDone: !task.isDone}: task)]})
     }
 
-    const removeTaskHandler = (id: string): void => {
-        // const filteredTasks = tasks.filter(task => task.id !== id)
-        // setTasks(filteredTasks)
+    const removeTask = (todolistID: string , taskID: string): void => {
+        setTasks({...tasks, [todolistID]: [...tasks[todolistID].filter(task => task.id !== taskID)]})
     }
 
-    const addTask = (taskName: string): void => {
-        // setTasks([{id: crypto.randomUUID(), isChecked: false, name: taskName}, ...tasks])
+    const addTask = (todolistID: string, taskName: string): void => {
+        setTasks({...tasks, [todolistID]: [{id:crypto.randomUUID(), title: taskName, isDone: false}, ...tasks[todolistID]]})
     }
-
-    // let filteredTasks: TasksType
-
-    // switch (filter) {
-    //     case 'active':
-    //         filteredTasks = tasks.filter(task => !task.isChecked)
-    //         break
-
-    //     case 'completed':
-    //         filteredTasks = tasks.filter(task => task.isChecked)
-    //         break
-
-    //     default:
-    //         filteredTasks = tasks
-    // }
 
     return (
         <>
@@ -82,7 +63,7 @@ function App() {
                         id = {tdlist.id}
                         title = {tdlist.title} 
                         tasks = {tasks[tdlist.id]} 
-                        removeTaskHandler = {removeTaskHandler} 
+                        removeTask = {removeTask} 
                         addTask = {addTask}
                         toggleIsChecked = {toggleIsChecked}
                     />
