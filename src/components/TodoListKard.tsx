@@ -1,42 +1,59 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { FilterType } from "../App";
 import "./todolistkardStyles.scss"
-import { error } from "console";
 
 export type TaskType = {
     id: string
-    isChecked: boolean
-    name: string
+    isDone: boolean
+    title: string
 }
 
-export type TasksType = TaskType[]
-
+type TasksType = TaskType[]
 
 type TodoListKardPropsType = {
+    id: string
     title: string
     tasks: TaskType[]
-    filter: FilterType
     removeTaskHandler: (id: string) => void
-    changeFilterHandler: (filterParameter: FilterType) => void
     addTask: (taskName: string) => void
     toggleIsChecked: (taskId: string) => void
 }
 
 export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
 
-    const { title, tasks, filter, removeTaskHandler, changeFilterHandler, addTask, toggleIsChecked } = props
+    const { title, tasks, removeTaskHandler, addTask, toggleIsChecked } = props
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)
+    const [filter, setFilter] = useState<FilterType>('all')
 
-    const ListItems = tasks.map((task) => {
+    let filteredTasks: TasksType
+
+    switch (filter) {
+        case 'active':
+            filteredTasks = tasks.filter(task => !task.isDone)
+            break
+
+        case 'completed':
+            filteredTasks = tasks.filter(task => task.isDone)
+            break
+
+        default:
+            filteredTasks = tasks
+    }
+
+    const ListItems = filteredTasks.map((task) => {
         return <li key={task.id}>
-            <input id={task.id} type="checkbox" checked={task.isChecked} />
+            <input id={task.id} type="checkbox" checked={task.isDone} />
             <label htmlFor={task.id} onClick={() => toggleIsChecked(task.id)}></label>
-            <span className={task.isChecked ? "task_done" : ""}>{task.name}</span>
+            <span className={task.isDone ? "task_done" : ""}>{task.title}</span>
             <button onClick={() => removeTaskHandler(task.id)}>x</button>
         </li>
     })
+
+    const changeFilterHandler = (filterParameter: FilterType): void => {
+        setFilter(filterParameter)
+    }
 
     const addNewTask = () => {
         if(inputValue.trim() === "") {
