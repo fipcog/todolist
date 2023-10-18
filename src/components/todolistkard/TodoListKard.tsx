@@ -62,8 +62,11 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
         return <li key={task.id}>
             <input id={task.id} type="checkbox" checked={task.isDone} />
             <label htmlFor={task.id} onClick={toggleIsCheckedHandler}></label>
-            {/* <span className={task.isDone ? "task_done" : ""}>{task.title}</span> */}
-            <EditableSpan oldTitle={task.title} callback={changeTaskTitleHandler} maxNumOFChar={15}/>
+            <EditableSpan spanClassName={task.isDone ? "task_done" : ""}
+                oldTitle={task.title} 
+                callback={changeTaskTitleHandler} 
+                maxNumOFChar={15}
+            />
             <button onClick={removeTaskHandler}>x</button>
         </li>
     })
@@ -80,7 +83,11 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
         <div className="todolist">
             <button onClick={removeTodolistHendler}/>
             <div className="todolist_content_wrapper">
-                <h3><EditableSpan oldTitle={title} callback={changeTodolistTitleHandler} maxNumOFChar={13}/></h3>
+                <h3><EditableSpan 
+                    oldTitle={title} 
+                    callback={changeTodolistTitleHandler} 
+                    maxNumOFChar={13}
+                /></h3>
                 <AddItemInput callback={title => addTask(todolistID, title)}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}
                 <div className="filter_wrapper">

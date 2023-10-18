@@ -1,0 +1,18 @@
+.edit_input {
+    height: 30px;
+
+    padding: 5px;
+
+    border: 1px solid rgb(175, 0, 175);
+    border-radius: 2px;
+    background-color: rgb(247, 247, 247);
+    color: purple;
+
+    &:focus, &:hover {
+        outline-color: purple;
+    }
+}
+
+.task_done {
+    text-decoration: line-through;
+}

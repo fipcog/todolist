@@ -1,14 +1,16 @@
 import React, { ChangeEvent, useState } from "react"
+import "./EditableSpan.scss"
 
 type EditableSpanPropsTypes = {
     oldTitle: string
     maxNumOFChar?: number
-    className?: string
+    spanClassName?: string
+    inputClassName?: string
     callback: (title: string) => void
 }
 
 export const EditableSpan: React.FC<EditableSpanPropsTypes> = (props) => {
-    const {oldTitle, maxNumOFChar, className, callback} = props
+    const {oldTitle, maxNumOFChar, spanClassName, inputClassName, callback} = props
 
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>(oldTitle)
@@ -27,7 +29,7 @@ export const EditableSpan: React.FC<EditableSpanPropsTypes> = (props) => {
     return(
         isEdit ?
             <input type="text"
-                    className={className}
+                    className={inputClassName ? "edit_input " + inputClassName : "edit_input"}
                     value={title} 
                     onBlur={changeEditHandler} 
                     onChange={onInputChange}
@@ -35,6 +37,6 @@ export const EditableSpan: React.FC<EditableSpanPropsTypes> = (props) => {
                     maxLength={maxNumOFChar ? maxNumOFChar : 1000}
             />
             :
-            <span className={className} onDoubleClick={changeEditHandler}>{oldTitle}</span>
+            <span className={spanClassName ? spanClassName : undefined} onDoubleClick={changeEditHandler}>{oldTitle}</span>
     )
 }

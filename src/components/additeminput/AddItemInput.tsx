@@ -1,10 +1,12 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react"
+import "./AddItemInputStyles.scss"
 
 type AddItemInputPropsTypes = {
     callback: (title: string) => void
+    className?: string
 }
 
-export const AddItemInput: React.FC<AddItemInputPropsTypes> = ({callback}) => {
+export const AddItemInput: React.FC<AddItemInputPropsTypes> = ({className ,callback}) => {
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)
@@ -32,8 +34,12 @@ export const AddItemInput: React.FC<AddItemInputPropsTypes> = ({callback}) => {
     }
 
     return (
-        <div className="todolist_input_wrapper">
-            <input value={inputValue} className={errorMassage ? "error" : undefined} onChange={onInputChangeHandler} onKeyDown={onInputBtnPressHandler}/>
+        <div className={className ? ("input_wrapper " + className) : "input_wrapper"}>
+            <input value={inputValue} 
+                    className={errorMassage ? "error" : undefined} 
+                    onChange={onInputChangeHandler} 
+                    onKeyDown={onInputBtnPressHandler}
+            />
             <button onClick={addNewItem}>+</button>
             {errorMassage && <span className="error_massage">{errorMassage}</span>}
         </div>

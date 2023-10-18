@@ -77,7 +77,7 @@ export const App: React.FC = () => {
     return (
         <div className='board'>
             <div className='add_todo_wrapper'>
-                <AddItemInput callback={createNewTodoList} />
+                <AddItemInput callback={createNewTodoList} className='task_input'/>
             </div>
         {
             todolists.map(tdList => {
