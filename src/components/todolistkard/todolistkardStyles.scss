@@ -158,7 +158,7 @@
     padding-left: 15px;
 }
 
-.task_list input {
+.task_list input[type=checkbox] {
     position: absolute;
     z-index: -1;
     opacity: 0;

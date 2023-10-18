@@ -1,6 +1,8 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
-import { FilterType } from "../App";
+import { FilterType } from "../../App";
 import "./todolistkardStyles.scss"
+import { AddItemInput } from "../additeminput/AddItemInput";
+import { EditableSpan } from "../editablespan/EditableSpan";
 
 export type TaskType = {
     id: string
@@ -18,12 +20,23 @@ type TodoListKardPropsType = {
     addTask: (todolistID: string, taskName: string) => void
     toggleIsChecked: (todolistID: string, taskID: string) => void
     removeTodolist: (todolistID: string) => void
+    changeTaskTitle: (todolistID: string, taskID: string ,taskTitle: string) => void
+    changeTodolistTitle: (todolistID: string, todoTitle: string) => void
 }
 
-export const TodoListKard: React.FC<TodoListKardPropsType> = ({ todolistID, title, tasks, removeTask, addTask, toggleIsChecked, removeTodolist }) => {
+export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
+    const { 
+            todolistID, 
+            title, 
+            tasks, 
+            removeTask, 
+            addTask, 
+            toggleIsChecked, 
+            removeTodolist,
+            changeTaskTitle,
+            changeTodolistTitle 
+        } = props
 
-    const [inputValue, setInputValue] = useState<string>("")
-    const [errorMassage, setErrorMassage] = useState<string | null>(null)
     const [filter, setFilter] = useState<FilterType>('all')
 
     let filteredTasks: TasksType
@@ -42,57 +55,33 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = ({ todolistID, titl
     }
 
     const ListItems = filteredTasks.map((task) => {
-        const toggleIsCheckedHandler = () => { toggleIsChecked(todolistID ,task.id) }
-        const removeTaskHandler = () => { removeTask(todolistID, task.id) }
+        const toggleIsCheckedHandler = (): void =>  toggleIsChecked(todolistID ,task.id) 
+        const removeTaskHandler = (): void =>  removeTask(todolistID, task.id) 
+        const changeTaskTitleHandler = (taskTitle: string): void => changeTaskTitle(todolistID, task.id, taskTitle)
 
         return <li key={task.id}>
             <input id={task.id} type="checkbox" checked={task.isDone} />
             <label htmlFor={task.id} onClick={toggleIsCheckedHandler}></label>
-            <span className={task.isDone ? "task_done" : ""}>{task.title}</span>
+            {/* <span className={task.isDone ? "task_done" : ""}>{task.title}</span> */}
+            <EditableSpan oldTitle={task.title} callback={changeTaskTitleHandler} maxNumOFChar={15}/>
             <button onClick={removeTaskHandler}>x</button>
         </li>
     })
 
-    const removeTodolistHendler = () => {
+    const removeTodolistHendler = (): void => {
         removeTodolist(todolistID)
     }
 
     const changeFilterHandler = (filterParameter: FilterType): void => { setFilter(filterParameter)}
 
-    const addNewTask = (): void => {
-        if(inputValue.trim() === "") {
-            setErrorMassage("Title is required")
-            return
-        }
-        addTask(todolistID, inputValue.trim())
-        setInputValue("")
-        setErrorMassage(null)
-    }
-
-    const onClickAddTaskHandler = (): void => { addNewTask() }
-
-    const onInputBtnPressHandler = (e:KeyboardEvent<HTMLInputElement>):void => {
-        if (e.code === "Enter") {
-            addNewTask()
-        }
-    }
-
-    const onInputChangeHandler = (e:ChangeEvent<HTMLInputElement>): void => {
-        e.currentTarget.value.trim().length > 15 ? setInputValue(inputValue) : setInputValue(e.currentTarget.value)
-        setErrorMassage(null)
-        if(e.currentTarget.value.trim().length > 15) setErrorMassage("Maximum number of characters")
-    }
+    const changeTodolistTitleHandler = (title: string): void => changeTodolistTitle(todolistID, title)
 
     return (
         <div className="todolist">
             <button onClick={removeTodolistHendler}/>
             <div className="todolist_content_wrapper">
-                <h3>{title}</h3>
-                <div className="todolist_input_wrapper">
-                    <input value={inputValue} className={errorMassage ? "error" : undefined} onChange={onInputChangeHandler} onKeyDown={onInputBtnPressHandler}/>
-                    <button onClick={onClickAddTaskHandler}>+</button>
-                    {errorMassage && <span className="error_massage">{errorMassage}</span>}
-                </div>
+                <h3><EditableSpan oldTitle={title} callback={changeTodolistTitleHandler} maxNumOFChar={13}/></h3>
+                <AddItemInput callback={title => addTask(todolistID, title)}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}
                 <div className="filter_wrapper">
                     <button className={filter === 'all' ? "active" : undefined} onClick={()=>changeFilterHandler('all')}>All</button>

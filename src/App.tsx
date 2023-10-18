@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import { TodoListKard, TaskType } from './components/TodoListKard';
+import { TodoListKard, TaskType } from './components/todolistkard/TodoListKard';
+import { AddItemInput } from './components/additeminput/AddItemInput';
 
 export type FilterType = 'all' | 'active' | 'completed'
 
@@ -14,7 +15,7 @@ type TasksType = {
     [key: string]: TaskType[]
 }
 
-function App() {
+export const App: React.FC = () => {
 
     const todolistID1=crypto.randomUUID();
     const todolistID2=crypto.randomUUID();
@@ -41,7 +42,7 @@ function App() {
         ]
     });
 
-    const toggleIsChecked = (todolistID: string, taskID: string) => {
+    const toggleIsChecked = (todolistID: string, taskID: string): void => {
         setTasks({...tasks, [todolistID]: [...tasks[todolistID].map(task => task.id === taskID ? {...task, isDone: !task.isDone}: task)]})
     }
 
@@ -53,13 +54,31 @@ function App() {
         setTasks({...tasks, [todolistID]: [{id:crypto.randomUUID(), title: taskName, isDone: false}, ...tasks[todolistID]]})
     }
 
-    const removeTodolist = (todolistID: string) => {
+    const removeTodolist = (todolistID: string): void => {
         setTodolists(todolists.filter(tdList => tdList.id !== todolistID))
         delete tasks[todolistID]
     }
 
+    const createNewTodoList = (title: string): void => {
+        const todoID: string = crypto.randomUUID()
+        const newTodo: TodolistsType = {id: todoID, title, filter: 'all'}
+        setTodolists([...todolists, newTodo])
+        setTasks({...tasks, [todoID]: []})
+    }
+
+    const changeTaskTitle = (todolistID: string, taskID: string ,taskTitle: string): void => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(task => task.id === taskID ? {...task, title: taskTitle} : task)})
+    }
+
+    const changeTodolistTitle = (todolistID: string, todoTitle: string): void => {
+        setTodolists(todolists.map(todo => todo.id === todolistID ? {...todo, title: todoTitle} : todo))
+    }
+
     return (
         <div className='board'>
+            <div className='add_todo_wrapper'>
+                <AddItemInput callback={createNewTodoList} />
+            </div>
         {
             todolists.map(tdList => {
                 return (
@@ -72,6 +91,8 @@ function App() {
                         addTask = {addTask}
                         toggleIsChecked = {toggleIsChecked}
                         removeTodolist = {removeTodolist}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodolistTitle={changeTodolistTitle}
                     />
                 )
             })
@@ -79,5 +100,3 @@ function App() {
         </div>
     );
 }
-
-export default App;
