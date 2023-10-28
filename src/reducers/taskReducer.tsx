@@ -1,9 +1,10 @@
+import { v1 } from "uuid";
 import { TasksType } from "../App";
 
 export const tasksReducer = (state: TasksType, action: MainActionsType):TasksType => {
     switch (action.type) {
         case 'ADD_TASK':
-            return {...state, [action.payload.todolistID]: [{id:crypto.randomUUID(), title: action.payload.taskName, isDone: false}, ...state[action.payload.todolistID]]}
+            return {...state, [action.payload.todolistID]: [{id: v1(), title: action.payload.taskName, isDone: false}, ...state[action.payload.todolistID]]}
         
         case 'ADD_NEW_EMPTY_TASKS_LIST':
             return {...state, [action.payload.NewTodolistID]: []}

@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer } from 'react';
 import './App.css';
 import { TodoListKard, TaskType } from './components/todolistkard/TodoListKard';
 import { AddItemInput } from './components/additeminput/AddItemInput';
