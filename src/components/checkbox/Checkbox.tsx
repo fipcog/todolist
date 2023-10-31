@@ -11,8 +11,8 @@ type PropsTypes = {
 export const Checkbox: React.FC<PropsTypes> = (props) => {
     return(
         <>
-            <input className="checkbox" id={props.id} type="checkbox" checked={props.checked ? props.checked : false} />
-            <label className="checkboxLabel" htmlFor={props.id} onClick={props.callback}></label>
+            <input className="checkbox" id={props.id} type="checkbox" checked={props.checked ? props.checked : false} onChange={props.callback}/>
+            <label className="checkboxLabel" htmlFor={props.id}></label>
         </>
     ) 
 }
