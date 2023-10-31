@@ -25,7 +25,7 @@ export const tasksReducer = (state: TasksType, action: MainActionsType):TasksTyp
     }
 }
 
-type MainActionsType = AddTask | AddNewEmptyTasksList | RemoveTask | ToggleIsChecked | ChangeTaskTitleAC
+type MainActionsType = AddTask | AddNewEmptyTasksList | RemoveTask | ToggleIsChecked | ChangeTaskTitle
 
 type AddTask = ReturnType<typeof addTaskAC>
 export const addTaskAC = (todolistID: string, taskName: string) => {
@@ -70,7 +70,7 @@ export const toggleIsCheckedAC = (todolistID: string, taskID: string) => {
     }   as const
 }
 
-type ChangeTaskTitleAC = ReturnType<typeof changeTaskTitleAC>
+type ChangeTaskTitle = ReturnType<typeof changeTaskTitleAC>
 export const changeTaskTitleAC = (todolistID: string, taskID: string ,taskTitle: string) => {
     return {
         type: 'CHANGE_TASK_TITLE',

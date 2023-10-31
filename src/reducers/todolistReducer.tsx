@@ -20,7 +20,7 @@ export const todolistReducer = (state: TodolistType[], action: MainActionsType):
     }
 }
 
-type MainActionsType = createNewTodolist | RemoveTodolist |ChangeTodolistTitleAC | ChangeTodolistFilterAC
+type MainActionsType = createNewTodolist | RemoveTodolist |ChangeTodolistTitleAC | ChangeTodolistFilter
 
 type createNewTodolist = ReturnType<typeof createNewTodolistAC>
 export const createNewTodolistAC = (newTodolist: TodolistType) => {
@@ -53,7 +53,7 @@ export const changeTodolistTitleAC = (todolistId: string, newTitle: string) => {
     } as const
 }
 
-type ChangeTodolistFilterAC = ReturnType<typeof changeTodolistFilterAC>
+type ChangeTodolistFilter = ReturnType<typeof changeTodolistFilterAC>
 export const changeTodolistFilterAC = (todolistId: string, newFilter: FilterType) => {
     return {
         type: 'CHANGE_TODOLIST_FILTER',

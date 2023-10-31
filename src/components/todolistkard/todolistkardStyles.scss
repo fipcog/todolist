@@ -87,62 +87,6 @@
     padding-left: 15px;
 }
 
-.task_list input[type=checkbox] {
-    position: absolute;
-    z-index: -1;
-    opacity: 0;
-}
-
-.task_list input + label {
-    position: relative;
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-
-    margin-right: 5px;
-
-    border: 1px solid rgb(175, 0, 175);
-    border-radius: 3px;
-    cursor: pointer;
-    transition: .2s;
-
-    &:hover {
-        background-color: rgb(175, 0, 175);
-    }
-}
-
-.task_list input:checked + label {
-    background-color: rgb(175, 0, 175);
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 5px;
-        left: 1px;
-        width: 15px;
-        height: 2px;
-
-        background-color: white;
-        transform: rotate(115deg);
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        top: 9.5px;
-        left: 1px;
-        width: 6px;
-        height: 2px;
-
-        background-color: white;
-        transform: rotate(35deg);
-    }
-
-    &:hover {
-        background-color: purple;
-    }
-}
-
 .task_list button {
     position: relative;
     top: -3px;

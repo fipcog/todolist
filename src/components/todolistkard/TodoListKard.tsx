@@ -3,6 +3,7 @@ import { FilterType } from "../../App";
 import "./todolistkardStyles.scss"
 import { AddItemInput } from "../additeminput/AddItemInput";
 import { EditableSpan } from "../editablespan/EditableSpan";
+import { Checkbox } from "../checkbox/Checkbox";
 
 export type TaskType = {
     id: string
@@ -56,14 +57,14 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
             filteredTasks = tasks
     }
 
+    const toggleIsCheckedHandler = (id: string): void =>  toggleIsChecked(todolistID , id) 
+
     const ListItems = filteredTasks.map((task) => {
-        const toggleIsCheckedHandler = (): void =>  toggleIsChecked(todolistID ,task.id) 
         const removeTaskHandler = (): void =>  removeTask(todolistID, task.id) 
         const changeTaskTitleHandler = (taskTitle: string): void => changeTaskTitle(todolistID, task.id, taskTitle)
 
         return <li key={task.id}>
-            <input id={task.id} type="checkbox" checked={task.isDone} />
-            <label htmlFor={task.id} onClick={toggleIsCheckedHandler}></label>
+            <Checkbox id={task.id} checked={task.isDone} callback={() => toggleIsCheckedHandler(task.id)} />
             <EditableSpan spanClassName={task.isDone ? "task_done" : ""}
                 oldTitle={task.title} 
                 callback={changeTaskTitleHandler} 
