@@ -43,3 +43,15 @@ test('changing todo title', () => {
 
     expect(newState[1].title).toBe('new title')
 })
+
+test('changing todo filter', () => {
+    const newState = todolistReducer(initialState, {
+        type: 'CHANGE_TODOLIST_FILTER',
+        payload: {
+            todolistId: '1',
+            newFilter: 'active'
+        }
+    })
+
+    expect(newState[1].filter).toBe('active')
+})

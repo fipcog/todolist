@@ -16,32 +16,34 @@ type TodoListKardPropsType = {
     todolistID: string
     title: string
     tasks: TaskType[]
+    tdFilter: FilterType
     removeTask: (todolistID: string, taskID: string) => void
     addTask: (todolistID: string, taskName: string) => void
     toggleIsChecked: (todolistID: string, taskID: string) => void
     removeTodolist: (todolistID: string) => void
     changeTaskTitle: (todolistID: string, taskID: string ,taskTitle: string) => void
     changeTodolistTitle: (todolistID: string, todoTitle: string) => void
+    changeTodolistFilter: (todolistID: string, newFilter: FilterType) => void 
 }
 
 export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
     const { 
             todolistID, 
             title, 
-            tasks, 
+            tasks,
+            tdFilter, 
             removeTask, 
             addTask, 
             toggleIsChecked, 
             removeTodolist,
             changeTaskTitle,
-            changeTodolistTitle 
+            changeTodolistTitle,
+            changeTodolistFilter
         } = props
-
-    const [filter, setFilter] = useState<FilterType>('all')
 
     let filteredTasks: TasksType
 
-    switch (filter) {
+    switch (tdFilter) {
         case 'active':
             filteredTasks = tasks.filter(task => !task.isDone)
             break
@@ -75,7 +77,7 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
         removeTodolist(todolistID)
     }
 
-    const changeFilterHandler = (filterParameter: FilterType): void => { setFilter(filterParameter)}
+    const changeFilterHandler = (filterParameter: FilterType): void => { changeTodolistFilter(todolistID, filterParameter)}
 
     const changeTodolistTitleHandler = (title: string): void => changeTodolistTitle(todolistID, title)
 
@@ -91,9 +93,9 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
                 <AddItemInput callback={title => addTask(todolistID, title)}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}
                 <div className="filter_wrapper">
-                    <button className={filter === 'all' ? "active" : undefined} onClick={()=>changeFilterHandler('all')}>All</button>
-                    <button className={filter === 'active' ? "active" : undefined} onClick={()=>changeFilterHandler('active')}>Active</button>
-                    <button className={filter === 'completed' ? "active" : undefined} onClick={()=>changeFilterHandler('completed')}>Completed</button>
+                    <button className={tdFilter === 'all' ? "active" : undefined} onClick={()=>changeFilterHandler('all')}>All</button>
+                    <button className={tdFilter === 'active' ? "active" : undefined} onClick={()=>changeFilterHandler('active')}>Active</button>
+                    <button className={tdFilter === 'completed' ? "active" : undefined} onClick={()=>changeFilterHandler('completed')}>Completed</button>
                 </div>
             </div>
         </div>

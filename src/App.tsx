@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import './App.css';
 import { TodoListKard, TaskType } from './components/todolistkard/TodoListKard';
 import { AddItemInput } from './components/additeminput/AddItemInput';
-import { changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from './reducers/todolistReducer';
+import { changeTodolistFilterAC, changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from './reducers/todolistReducer';
 import { addNewEmptyTasksList, addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer, toggleIsCheckedAC } from './reducers/taskReducer';
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -76,6 +76,10 @@ export const App: React.FC = () => {
         dispatchTodolists(changeTodolistTitleAC(todolistID, todoTitle))
     }
 
+    const changeTodolistFilter = (todolistID: string, newFilter: FilterType): void => {
+        dispatchTodolists(changeTodolistFilterAC(todolistID, newFilter))
+    }
+
     return (
         <div className='board'>
             <div className='add_todo_wrapper'>
@@ -87,14 +91,16 @@ export const App: React.FC = () => {
                     <TodoListKard   
                         key = {tdList.id}
                         todolistID = {tdList.id}
+                        tdFilter = {tdList.filter}
                         title = {tdList.title} 
                         tasks = {tasks[tdList.id]} 
                         removeTask = {removeTask} 
                         addTask = {addTask}
                         toggleIsChecked = {toggleIsChecked}
                         removeTodolist = {removeTodolist}
-                        changeTaskTitle={changeTaskTitle}
-                        changeTodolistTitle={changeTodolistTitle}
+                        changeTaskTitle = {changeTaskTitle}
+                        changeTodolistTitle = {changeTodolistTitle}
+                        changeTodolistFilter = {changeTodolistFilter}
                     />
                 )
             })
