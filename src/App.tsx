@@ -3,7 +3,7 @@ import './App.css';
 import { TodoListKard, TaskType } from './components/todolistkard/TodoListKard';
 import { AddItemInput } from './components/additeminput/AddItemInput';
 import { changeTodolistFilterAC, changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from './reducers/todolistReducer';
-import { addNewEmptyTasksList, addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer, toggleIsCheckedAC } from './reducers/taskReducer';
+import { addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer, toggleIsCheckedAC } from './reducers/taskReducer';
 
 export type FilterType = 'all' | 'active' | 'completed'
 
@@ -57,15 +57,16 @@ export const App: React.FC = () => {
     }
 
     const removeTodolist = (todolistID: string): void => {
-        dispatchTodolists(removeTodolistAC(todolistID))
-        delete tasks[todolistID]
+        const action = removeTodolistAC(todolistID)
+        dispatchTodolists(action)
+        dispatchTasks(action)
     }
 
     const createNewTodoList = (title: string): void => {
-        const NewTodolistID: string = crypto.randomUUID()
-        const newTodo: TodolistType = {id: NewTodolistID, title, filter: 'all'}
-        dispatchTodolists(createNewTodolistAC(newTodo))
-        dispatchTasks(addNewEmptyTasksList(NewTodolistID))
+        const action = createNewTodolistAC(title)
+        dispatchTodolists(action)
+        dispatchTasks(action)
+
     }
 
     const changeTaskTitle = (todolistID: string, taskID: string ,taskTitle: string): void => {

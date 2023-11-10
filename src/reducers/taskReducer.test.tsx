@@ -1,5 +1,5 @@
 import { TasksType } from "../App"
-import { tasksReducer } from "./taskReducer"
+import { addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer, toggleIsCheckedAC } from "./taskReducer"
 
 let initialState: TasksType
 
@@ -23,66 +23,34 @@ beforeEach(()=>{
 })
 
 test('adding task', ()=>{
-    const newState = tasksReducer(initialState, {
-        type: 'ADD_TASK',
-        payload: {
-            todolistID: '0',
-            taskName: 'new task'
-        }
-    })
+    const action = addTaskAC('0', 'new task')
+    const newState = tasksReducer(initialState, action)
 
     expect(newState['0'].length).toBe(6)
     expect(newState['0'][0].title).toBe('new task')
 }) 
 
-test('adding task list', ()=>{
-    const newState = tasksReducer(initialState, {
-        type: 'ADD_NEW_EMPTY_TASKS_LIST',
-        payload: {
-            NewTodolistID: '2'
-        }
-    })
-
-    expect(newState['2']).toBeDefined()
-    expect(newState['2'].length).toBe(0)
-}) 
-
 test('removing task', ()=>{
-    const newState = tasksReducer(initialState, {
-        type: 'REMOVE_TASK',
-        payload: {
-            todolistID: '0',
-            taskId: 'task_0'
-        }
-    })
+    const action = removeTaskAC('0', 'task_0')
+    const newState = tasksReducer(initialState, action)
 
     expect(newState['0'].length).toBe(4)
 }) 
 
 test('changing idDone task', ()=>{
-    const newState = tasksReducer(initialState, {
-        type: 'TOGGLE_TASK_ISCHECKED',
-        payload: {
-            todolistID: '0',
-            taskID: 'task_0'
-        }
-    })
+    const action = toggleIsCheckedAC('0', 'task_0')
+    const newState = tasksReducer(initialState, action)
 
     expect(newState['0'][0].isDone).toBe(false)
 }) 
 
 test('changing task title', ()=>{
-    const newState = tasksReducer(initialState, {
-        type: 'CHANGE_TASK_TITLE',
-        payload: {
-            todolistID: '0',
-            taskID: 'task_0',
-            taskTitle: 'new title'
-        }
-    })
+    const action = changeTaskTitleAC('0', 'task_0', 'new title')
+    const newState = tasksReducer(initialState, action)
 
     expect(newState['0'][0].title).toBe('new title')
 }) 
+
 
 
 

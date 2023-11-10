@@ -1,5 +1,5 @@
 import { TodolistType } from "../App"
-import { todolistReducer } from "./todolistReducer"
+import { changeTodolistFilterAC, changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from "./todolistReducer"
 
 let initialState : TodolistType[]
 
@@ -11,47 +11,29 @@ beforeEach(()=> {
 })
 
 test('adding new todo', () => {
-    const newState = todolistReducer(initialState, {
-        type: 'CREATE_TODOLIST',
-        payload: {
-            newTodolist: {id: '2', title: 'earn ', filter: 'all'},
-        }
-    })
+    const action = createNewTodolistAC('earn')
+    const newState = todolistReducer(initialState, action)
 
     expect(newState.length).toBe(3)
 })
 
 test('removing todo', () => {
-    const newState = todolistReducer(initialState, {
-        type: 'REMOVE_TODOLIST',
-        payload: {
-            todolstID: '1'
-        }
-    })
+    const action = removeTodolistAC('1')
+    const newState = todolistReducer(initialState, action)
 
     expect(newState.length).toBe(1)
 })
 
 test('changing todo title', () => {
-    const newState = todolistReducer(initialState, {
-        type: 'CHANGE_TODOLIST_NAME',
-        payload: {
-            todolistId: '1',
-            newTitle: 'new title'
-        }
-    })
+    const action = changeTodolistTitleAC('1', 'new title')
+    const newState = todolistReducer(initialState, action)
 
     expect(newState[1].title).toBe('new title')
 })
 
 test('changing todo filter', () => {
-    const newState = todolistReducer(initialState, {
-        type: 'CHANGE_TODOLIST_FILTER',
-        payload: {
-            todolistId: '1',
-            newFilter: 'active'
-        }
-    })
+    const action = changeTodolistFilterAC('1', 'active')
+    const newState = todolistReducer(initialState, action)
 
     expect(newState[1].filter).toBe('active')
 })
