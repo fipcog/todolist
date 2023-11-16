@@ -2,7 +2,24 @@ import { v1 } from "uuid";
 import { TasksType } from "../App";
 import { CreateNewTodolist, RemoveTodolist } from "./todolistReducer";
 
-export const tasksReducer = (state: TasksType, action: MainActionsType):TasksType => {
+const defaultState: TasksType = {
+    todolistID1:[
+        {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
+        {id: crypto.randomUUID(), title: "JS", isDone: true},
+        {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
+        {id: crypto.randomUUID(), title: "Rest API", isDone: false},
+        {id: crypto.randomUUID(), title: "GraphQL", isDone: false},
+    ],
+    todolistID2:[
+        {id: crypto.randomUUID(), title: "HTML&CSS2", isDone: true},
+        {id: crypto.randomUUID(), title: "JS2", isDone: true},
+        {id: crypto.randomUUID(), title: "ReactJS2", isDone: false},
+        {id: crypto.randomUUID(), title: "Rest API2", isDone: false},
+        {id: crypto.randomUUID(), title: "GraphQL2", isDone: false},
+    ]
+}
+
+export const tasksReducer = (state = defaultState, action: MainActionsType):TasksType => {
     switch (action.type) {
         case 'ADD_TASK':
             return {...state, [action.payload.todolistID]: [{id: v1(), title: action.payload.taskName, isDone: false}, ...state[action.payload.todolistID]]}
@@ -43,16 +60,6 @@ export const addTaskAC = (todolistID: string, taskName: string) => {
         }
     } as const
 }
-
-// type AddNewEmptyTasksList = ReturnType<typeof addNewEmptyTasksList>
-// export const addNewEmptyTasksList = (NewTodolistID: string) => {
-//     return {
-//         type: 'ADD_NEW_EMPTY_TASKS_LIST',
-//         payload: {
-//             NewTodolistID
-//         }
-//     } as const 
-// }
 
 type RemoveTask = ReturnType<typeof removeTaskAC>
 export const removeTaskAC = (todolistID: string, taskId: string) => {

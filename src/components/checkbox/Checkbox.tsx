@@ -1,7 +1,6 @@
 import React from "react"
 import './Checkbox.scss'
 
-
 type PropsTypes = {
     id: string
     checked?:boolean

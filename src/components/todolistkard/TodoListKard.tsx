@@ -1,9 +1,14 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import React from "react";
 import { FilterType } from "../../App";
 import "./todolistkardStyles.scss"
 import { AddItemInput } from "../additeminput/AddItemInput";
 import { EditableSpan } from "../editablespan/EditableSpan";
 import { Checkbox } from "../checkbox/Checkbox";
+import { useSelector } from "react-redux";
+import { AppRootStateType } from "../../store/store";
+import { useDispatch } from "react-redux";
+import { changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC } from "../../reducers/todolistReducer";
+import { addTaskAC, changeTaskTitleAC, removeTaskAC, toggleIsCheckedAC } from "../../reducers/taskReducer";
 
 export type TaskType = {
     id: string
@@ -11,38 +16,24 @@ export type TaskType = {
     title: string
 }
 
-type TasksType = TaskType[]
+type TodoTasksType = TaskType[]
 
 type TodoListKardPropsType = {
     todolistID: string
     title: string
-    tasks: TaskType[]
     tdFilter: FilterType
-    removeTask: (todolistID: string, taskID: string) => void
-    addTask: (todolistID: string, taskName: string) => void
-    toggleIsChecked: (todolistID: string, taskID: string) => void
-    removeTodolist: (todolistID: string) => void
-    changeTaskTitle: (todolistID: string, taskID: string ,taskTitle: string) => void
-    changeTodolistTitle: (todolistID: string, todoTitle: string) => void
-    changeTodolistFilter: (todolistID: string, newFilter: FilterType) => void 
 }
 
 export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
     const { 
             todolistID, 
             title, 
-            tasks,
             tdFilter, 
-            removeTask, 
-            addTask, 
-            toggleIsChecked, 
-            removeTodolist,
-            changeTaskTitle,
-            changeTodolistTitle,
-            changeTodolistFilter
         } = props
 
-    let filteredTasks: TasksType
+    const dispatch = useDispatch()
+    const tasks = useSelector<AppRootStateType, TodoTasksType>(state => state.tasks[todolistID])
+    let filteredTasks: TodoTasksType
 
     switch (tdFilter) {
         case 'active':
@@ -57,30 +48,46 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
             filteredTasks = tasks
     }
 
-    const toggleIsCheckedHandler = (id: string): void =>  toggleIsChecked(todolistID , id) 
+    const toggleIsCheckedHandler = (taskId: string): void => {
+        dispatch(toggleIsCheckedAC(todolistID , taskId))
+    }
+
+    const removeTaskHandler = (taskId: string): void => {
+        dispatch(removeTaskAC(todolistID, taskId))
+    }
+
+    const changeTaskTitleHandler = (taskId: string, taskTitle: string): void => {
+        dispatch(changeTaskTitleAC(todolistID, taskId, taskTitle))
+    }
 
     const ListItems = filteredTasks.map((task) => {
-        const removeTaskHandler = (): void =>  removeTask(todolistID, task.id) 
-        const changeTaskTitleHandler = (taskTitle: string): void => changeTaskTitle(todolistID, task.id, taskTitle)
 
         return <li key={task.id}>
             <Checkbox id={task.id} checked={task.isDone} callback={() => toggleIsCheckedHandler(task.id)} />
             <EditableSpan spanClassName={task.isDone ? "task_done" : ""}
                 oldTitle={task.title} 
-                callback={changeTaskTitleHandler} 
+                callback={(title) => changeTaskTitleHandler(task.id, title)} 
                 maxNumOFChar={15}
             />
-            <button onClick={removeTaskHandler}>x</button>
+            <button onClick={() => removeTaskHandler(task.id)}>x</button>
         </li>
     })
 
     const removeTodolistHendler = (): void => {
-        removeTodolist(todolistID)
+        dispatch(removeTodolistAC(todolistID))
     }
 
-    const changeFilterHandler = (filterParameter: FilterType): void => { changeTodolistFilter(todolistID, filterParameter)}
+    const changeFilterHandler = (filterParameter: FilterType) :void => {
+        dispatch(changeTodolistFilterAC(todolistID, filterParameter))
+    }
 
-    const changeTodolistTitleHandler = (title: string): void => changeTodolistTitle(todolistID, title)
+    const changeTodolistTitleHandler = (title: string): void => {
+        dispatch(changeTodolistTitleAC(todolistID, title))
+    }
+
+    const addTaskHandler = (title: string) => {
+        dispatch(addTaskAC(todolistID, title))
+    }
 
     return (
         <div className="todolist">
@@ -91,7 +98,7 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = (props) => {
                     callback={changeTodolistTitleHandler} 
                     maxNumOFChar={13}
                 /></h3>
-                <AddItemInput callback={title => addTask(todolistID, title)}/>
+                <AddItemInput callback={addTaskHandler}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}
                 <div className="filter_wrapper">
                     <button className={tdFilter === 'all' ? "active" : undefined} onClick={()=>changeFilterHandler('all')}>All</button>

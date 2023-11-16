@@ -1,8 +1,12 @@
 import { v1 } from "uuid";
 import { FilterType, TodolistType } from "../App";
 
+const defaultState: TodolistType[] = [
+    {id:'todolistID1', title: 'What to learn', filter: 'all'},
+    {id:'todolistID2', title: 'What to buy', filter: 'all'},
+]
 
-export const todolistReducer = (state: TodolistType[], action: MainActionsType): TodolistType[] => {
+export const todolistReducer = (state = defaultState, action: MainActionsType): TodolistType[] => {
     switch (action.type) {
         case 'CREATE_TODOLIST':
             return [...state, action.payload.newTodolist]
