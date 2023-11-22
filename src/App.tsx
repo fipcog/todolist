@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './App.css';
 import { TodoListKard, TaskType } from './components/todolistkard/TodoListKard';
 import { AddItemInput } from './components/additeminput/AddItemInput';
@@ -24,9 +24,9 @@ export const App: React.FC = () => {
     const todolists = useSelector<AppRootStateType, TodolistType[]>((state) => state.todolists)
     const dispatch = useDispatch()
 
-    const createNewTodoList = (title: string): void => {
+    const createNewTodoList = useCallback((title: string): void => {
         dispatch(createNewTodolistAC(title))
-    }
+    }, [dispatch])
 
     return (
         <div className='board'>

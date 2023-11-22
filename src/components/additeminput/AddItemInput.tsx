@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react"
+import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react"
 import "./AddItemInputStyles.scss"
 
 type AddItemInputPropsTypes = {
@@ -6,7 +6,7 @@ type AddItemInputPropsTypes = {
     className?: string
 }
 
-export const AddItemInput: React.FC<AddItemInputPropsTypes> = ({className ,callback}) => {
+export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className ,callback}) => {
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)
@@ -29,7 +29,7 @@ export const AddItemInput: React.FC<AddItemInputPropsTypes> = ({className ,callb
 
     const onInputChangeHandler = (e:ChangeEvent<HTMLInputElement>): void => {
         e.currentTarget.value.trim().length > 15 ? setInputValue(inputValue) : setInputValue(e.currentTarget.value)
-        setErrorMassage(null)
+        if(errorMassage) setErrorMassage(null)
         if(e.currentTarget.value.trim().length > 15) setErrorMassage("Maximum number of characters")
     }
 
@@ -44,4 +44,4 @@ export const AddItemInput: React.FC<AddItemInputPropsTypes> = ({className ,callb
             {errorMassage && <span className="error_massage">{errorMassage}</span>}
         </div>
     )
-}
+})

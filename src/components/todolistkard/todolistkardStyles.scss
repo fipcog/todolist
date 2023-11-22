@@ -87,51 +87,7 @@
     padding-left: 15px;
 }
 
-.task_list button {
-    position: relative;
-    top: -3px;
-    right: 0;
-    width: 25px;
-    height: 25px;
-    margin: 0;
-    margin-left: 5px;
-    padding: 0;
-    color: transparent;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: .2s;
 
-    &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 12px;
-        width: 22px;
-        height: 3px;
-
-        background-color: rgb(175, 0, 175);
-        transform: rotate(45deg);
-    }
-
-    &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 12px;
-        width: 22px;
-        height: 3px;
-
-        background-color: rgb(175, 0, 175);
-        transform: rotate(-45deg);
-    }
-
-    &:hover {
-        &::before, &::after {
-            background-color: purple;
-        }
-    }
-}
 
 .filter_wrapper {
     display: flex;

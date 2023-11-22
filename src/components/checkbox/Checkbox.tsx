@@ -1,4 +1,4 @@
-import React from "react"
+import React, { memo } from "react"
 import './Checkbox.scss'
 
 type PropsTypes = {
@@ -7,11 +7,11 @@ type PropsTypes = {
     callback: () => void
 }
 
-export const Checkbox: React.FC<PropsTypes> = (props) => {
+export const Checkbox: React.FC<PropsTypes> = memo((props) => {
     return(
         <>
             <input className="checkbox" id={props.id} type="checkbox" checked={props.checked ? props.checked : false} onChange={props.callback}/>
             <label className="checkboxLabel" htmlFor={props.id}></label>
         </>
     ) 
-}
+})

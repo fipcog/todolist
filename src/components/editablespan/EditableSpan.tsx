@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, memo, useState } from "react"
 import "./EditableSpan.scss"
 
 type EditableSpanPropsTypes = {
@@ -9,7 +9,7 @@ type EditableSpanPropsTypes = {
     callback: (title: string) => void
 }
 
-export const EditableSpan: React.FC<EditableSpanPropsTypes> = (props) => {
+export const EditableSpan: React.FC<EditableSpanPropsTypes> = memo((props) => {
     const {oldTitle, maxNumOFChar, spanClassName, inputClassName, callback} = props
 
     const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -39,4 +39,4 @@ export const EditableSpan: React.FC<EditableSpanPropsTypes> = (props) => {
             :
             <span className={spanClassName ? spanClassName : undefined} onDoubleClick={changeEditHandler}>{oldTitle}</span>
     )
-}
+})
