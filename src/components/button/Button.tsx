@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import './buttonStyles.scss'
 
 type Button = {
     className: string | undefined
