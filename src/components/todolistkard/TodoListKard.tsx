@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC } from "../../reducers/todolistReducer";
 import { addTaskAC, changeTaskTitleAC, removeTaskAC, toggleIsCheckedAC } from "../../reducers/taskReducer";
 import { Task } from "../task/Task";
+import { Button } from "../button/Button";
 
 export type TaskType = {
     id: string
@@ -79,9 +80,9 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = memo((props) => {
                 <AddItemInput callback={addTaskHandler}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}
                 <div className="filter_wrapper">
-                    <button className={tdFilter === 'all' ? "active" : undefined} onClick={()=>changeFilterHandler('all')}>All</button>
-                    <button className={tdFilter === 'active' ? "active" : undefined} onClick={()=>changeFilterHandler('active')}>Active</button>
-                    <button className={tdFilter === 'completed' ? "active" : undefined} onClick={()=>changeFilterHandler('completed')}>Completed</button>
+                    <Button className={tdFilter === 'all' ? "active" : undefined} callback={()=>changeFilterHandler('all')}>All</Button>
+                    <Button className={tdFilter === 'active' ? "active" : undefined} callback={()=>changeFilterHandler('active')}>Active</Button>
+                    <Button className={tdFilter === 'completed' ? "active" : undefined} callback={()=>changeFilterHandler('completed')}>Completed</Button>
                 </div>
             </div>
         </div>
