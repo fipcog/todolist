@@ -30,10 +30,10 @@ export const Task: React.FC<PropsType> = memo(({todolistID, task}) => {
     return( 
         <li>
             <Checkbox id={task.id} checked={task.isDone} callback={() => toggleIsCheckedHandler()} />
-            <EditableSpan spanClassName={task.isDone ? "task_done" : ""}
+            <EditableSpan spanProps={{className: task.isDone ? "task_done" : ""}}
                 oldTitle={task.title} 
                 callback={changeTaskTitleHandler} 
-                maxNumOFChar={15}
+                maxLength={15}
             />
             <button onClick={() => removeTaskHandler()}>x</button>
         </li>

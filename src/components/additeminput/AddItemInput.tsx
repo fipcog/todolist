@@ -18,7 +18,7 @@ export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className ,
         }
         callback(inputValue.trim())
         setInputValue("")
-        setErrorMassage(null)
+        if(errorMassage) setErrorMassage(null)
     }
 
     const onInputBtnPressHandler = (e:KeyboardEvent<HTMLInputElement>):void => {

@@ -1,17 +1,17 @@
-import React, { memo } from "react"
+import React, { DetailedHTMLProps, InputHTMLAttributes, memo } from "react"
 import './Checkbox.scss'
 
-type PropsTypes = {
-    id: string
-    checked?:boolean
+type DefautInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+type Props = Omit<DefautInputProps, 'type'> & {
     callback: () => void
 }
 
-export const Checkbox: React.FC<PropsTypes> = memo((props) => {
+export const Checkbox: React.FC<Props> = memo((props) => {
+    const {id, checked, callback, ...restProps} = props
     return(
         <>
-            <input className="checkbox" id={props.id} type="checkbox" checked={props.checked ? props.checked : false} onChange={props.callback}/>
-            <label className="checkboxLabel" htmlFor={props.id}></label>
+            <input className="checkbox" id={id} type="checkbox" checked={checked} onChange={callback} {...restProps}/>
+            <label className="checkboxLabel" htmlFor={id}></label>
         </>
     ) 
 })

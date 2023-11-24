@@ -75,7 +75,7 @@ export const TodoListKard: React.FC<TodoListKardPropsType> = memo((props) => {
                 <h3><EditableSpan 
                     oldTitle={title} 
                     callback={changeTodolistTitleHandler} 
-                    maxNumOFChar={13}
+                    maxLength={13}
                 /></h3>
                 <AddItemInput callback={addTaskHandler}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}

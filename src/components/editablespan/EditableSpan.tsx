@@ -1,16 +1,25 @@
-import React, { ChangeEvent, memo, useState } from "react"
+import React, { ChangeEvent, 
+        DetailedHTMLProps, 
+        HTMLAttributes, 
+        InputHTMLAttributes, 
+        memo, 
+        useState , 
+        KeyboardEvent 
+    } from "react"
 import "./EditableSpan.scss"
 
-type EditableSpanPropsTypes = {
-    oldTitle: string
-    maxNumOFChar?: number
-    spanClassName?: string
-    inputClassName?: string
-    callback: (title: string) => void
-}
+type DefaultInputTypes = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+type DefaultSpanTypes = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
+type EditableSpanPropsTypes = Omit<DefaultInputTypes, 'type'> & {
+                                    oldTitle: string
+                                    callback: (title: string) => void
+
+                                    spanProps?: DefaultSpanTypes
+                                }
+
 
 export const EditableSpan: React.FC<EditableSpanPropsTypes> = memo((props) => {
-    const {oldTitle, maxNumOFChar, spanClassName, inputClassName, callback} = props
+    const {oldTitle, className, maxLength, spanProps, callback, ...restProps} = props
 
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>(oldTitle)
@@ -26,17 +35,26 @@ export const EditableSpan: React.FC<EditableSpanPropsTypes> = memo((props) => {
         setTitle(e.currentTarget.value)
     }
 
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === 'Enter') {
+            changeEditHandler()
+        }
+    }
+
     return(
         isEdit ?
             <input type="text"
-                    className={inputClassName ? "edit_input " + inputClassName : "edit_input"}
+                    className={className ? "edit_input " + className : "edit_input"}
                     value={title} 
                     onBlur={changeEditHandler} 
                     onChange={onInputChange}
+                    onKeyDown={onKeyDownHandler}
                     autoFocus 
-                    maxLength={maxNumOFChar ? maxNumOFChar : 1000}
+                    maxLength={maxLength ? maxLength : 1000}
+
+                    {...restProps}
             />
             :
-            <span className={spanClassName ? spanClassName : undefined} onDoubleClick={changeEditHandler}>{oldTitle}</span>
+            <span className={spanProps?.className} onDoubleClick={changeEditHandler} {...spanProps}>{oldTitle}</span>
     )
 })

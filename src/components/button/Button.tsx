@@ -1,13 +1,12 @@
-import React, { memo } from "react";
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, memo } from "react";
 import './buttonStyles.scss'
 
-type Button = {
-    className: string | undefined
+type DefaultButtonTypes = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+type Props = DefaultButtonTypes & {
     callback: () => void
-    children: string
 }
 
-export const Button: React.FC<Button> = memo(({className, callback, children}) => {
+export const Button: React.FC<Props> = memo(({className, callback, children}) => {
     return (
         <button className={className} onClick={callback}>{children}</button>
     )
