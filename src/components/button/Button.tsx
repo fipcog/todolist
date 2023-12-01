@@ -6,8 +6,8 @@ type Props = DefaultButtonTypes & {
     callback: () => void
 }
 
-export const Button: React.FC<Props> = memo(({className, callback, children}) => {
+export const Button: React.FC<Props> = memo(({className, callback, children, ...restProps}) => {
     return (
-        <button className={className} onClick={callback}>{children}</button>
+        <button className={"button " + className} onClick={callback} {...restProps}>{children}</button>
     )
 })

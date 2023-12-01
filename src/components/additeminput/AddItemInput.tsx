@@ -1,12 +1,12 @@
 import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react"
 import "./AddItemInputStyles.scss"
 
-type AddItemInputPropsTypes = {
+export type AddItemInputPropsTypes = {
     callback: (title: string) => void
     className?: string
 }
 
-export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className ,callback}) => {
+export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className, callback}) => {
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)

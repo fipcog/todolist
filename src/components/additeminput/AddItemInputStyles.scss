@@ -1,6 +1,7 @@
 .input_wrapper {
     display: block;
     position: relative;
+    box-sizing: border-box;
 }
 
 .input_wrapper input {
@@ -14,6 +15,7 @@
     border-radius: 10px;
     background-color: rgb(247, 247, 247);
     color: purple;
+    box-sizing: border-box;
 
     &.error {
         border-color: red;
@@ -26,7 +28,7 @@
 
 .input_wrapper button {
     position: absolute;
-    top: 3px;
+    top: 2px;
     right: 0;
     width: 28px;
     height: 28px;
@@ -37,6 +39,7 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    box-sizing: border-box;
     transition: .2s;
 
     &::before {
@@ -71,16 +74,14 @@
 
 .error_massage {
     color: red;
+    display: block;
+    width: 100%;
 }
 
 .task_input {
     input {
         width: 200px;
         font-size: 1.1em;
-    }
-
-    button {
-        top: 2px;
     }
 
     span {
@@ -90,4 +91,10 @@
         font-size: .8em;
     }
     
+}
+
+.card_input {
+    button {
+        top: 3px;
+    }
 }

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import './App.css';
-import { TodoListKard, TaskType } from './components/todolistkard/TodoListKard';
+import { TodoListCard, TaskType } from './components/todolistkard/TodoListCard';
 import { AddItemInput } from './components/additeminput/AddItemInput';
 import { createNewTodolistAC } from './reducers/todolistReducer';
 import { useSelector } from 'react-redux';
@@ -36,7 +36,7 @@ export const App: React.FC = () => {
         {
             todolists.map(tdList => {
                 return (
-                    <TodoListKard   
+                    <TodoListCard   
                         key = {tdList.id}
                         todolistID = {tdList.id}
                         tdFilter = {tdList.filter}

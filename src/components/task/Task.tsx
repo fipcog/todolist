@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { TaskType } from '../todolistkard/TodoListKard';
+import { TaskType } from '../todolistkard/TodoListCard';
 import { useDispatch } from 'react-redux';
 import { changeTaskTitleAC, removeTaskAC, toggleIsCheckedAC } from '../../reducers/taskReducer';
 import { Checkbox } from '../checkbox/Checkbox';
@@ -28,14 +28,14 @@ export const Task: React.FC<PropsType> = memo(({todolistID, task}) => {
     }
     
     return( 
-        <li>
+        <li className='task'>
             <Checkbox id={task.id} checked={task.isDone} callback={() => toggleIsCheckedHandler()} />
             <EditableSpan spanProps={{className: task.isDone ? "task_done" : ""}}
                 oldTitle={task.title} 
                 callback={changeTaskTitleHandler} 
                 maxLength={15}
             />
-            <button onClick={() => removeTaskHandler()}>x</button>
+            <button className='tasks_btn' onClick={() => removeTaskHandler()}>x</button>
         </li>
     )
 })

@@ -1,27 +1,42 @@
-import React, { ChangeEvent, 
-        DetailedHTMLProps, 
-        HTMLAttributes, 
-        InputHTMLAttributes, 
-        memo, 
-        useState , 
-        KeyboardEvent 
-    } from "react"
-import "./EditableSpan.scss"
+import type { Meta, StoryObj } from '@storybook/react';
+import  { action } from '@storybook/addon-actions';
+import { EditableSpan, EditableSpanPropsTypes } from './EditableSpan';
+import { ChangeEvent, useState, KeyboardEvent } from 'react';
 
-type DefaultInputTypes = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-type DefaultSpanTypes = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
-export type EditableSpanPropsTypes = Omit<DefaultInputTypes, 'type'> & {
-                                    oldTitle: string
-                                    callback: (title: string) => void
+const meta: Meta<typeof EditableSpan> = {
+    title: 'Todolist/EditableSpan',
+    component: EditableSpan,
+    parameters: {
+        layout: 'centered',
+    },
+    tags: ['autodocs'],
+    argTypes: {
+        callback: {
+            action: 'clicked'
+        }
+    },
+    args: {
+        maxLength: 15,
+        oldTitle: 'Clickable span title'
+    }
+};
 
-                                    spanProps?: DefaultSpanTypes
-                                }
+export default meta;
+type Story = StoryObj<typeof EditableSpan>;
 
+export const EditableSpanStory: Story = {};
+export const EditableSpanLinedThroughStory: Story = {
+    args: {
+        spanProps: {
+            className: "task_done"
+        }
+    }
+};
 
-export const EditableSpan: React.FC<EditableSpanPropsTypes> = memo((props) => {
+const ServiceEditableSpanEdit = (props:EditableSpanPropsTypes) => {
     const {oldTitle, className, maxLength, spanProps, callback, ...restProps} = props
 
-    const [isEdit, setIsEdit] = useState<boolean>(false)
+    const [isEdit, setIsEdit] = useState<boolean>(true)
     const [title, setTitle] = useState<string>(oldTitle)
 
     const changeEditHandler = () => {
@@ -57,4 +72,9 @@ export const EditableSpan: React.FC<EditableSpanPropsTypes> = memo((props) => {
             :
             <span className={spanProps?.className} onDoubleClick={changeEditHandler} {...spanProps}>{oldTitle}</span>
     )
-})
+}
+
+export const EditableSpanEditStory: Story = {
+    render: () => <ServiceEditableSpanEdit oldTitle='Clickable span title' callback={()=> action('clicked')} />
+};
+

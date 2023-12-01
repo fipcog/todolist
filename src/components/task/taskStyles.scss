@@ -1,6 +1,12 @@
-.task_list button {
+.task {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.tasks_btn {
     position: relative;
-    top: -3px;
+    top: 0px;
     right: 0;
     width: 25px;
     height: 25px;
