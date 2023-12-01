@@ -1,8 +1,11 @@
 describe('Button', () => {
     it('base example, visually looks correct', async () => {
         // APIs from jest-puppeteer
-        await page.goto('http://localhost:9009/?path=/story/todolist-button--button-story',
-            {waitUntil: "networkidle2", timeout: 50000});
+        await page.goto('http://localhost:9009/iframe.html?args=&id=todolist-button--button-story&viewMode=story',
+        {
+            waitUntil: "networkidle2",
+            timeout: 50000
+        });
 
         const image = await page.screenshot();
 
@@ -14,8 +17,11 @@ describe('Button', () => {
 describe('Button active', () => {
     it('base example, visually looks correct', async () => {
         // APIs from jest-puppeteer
-        await page.goto('http://localhost:9009/?path=/story/todolist-button--button-active-story',
-            {waitUntil: "networkidle2", timeout: 50000});
+        await page.goto('http://localhost:9009/iframe.html?args=&id=todolist-button--button-active-story&viewMode=story',
+        {
+            waitUntil: "networkidle2",
+            timeout: 50000
+        });
 
         const image = await page.screenshot();
 
