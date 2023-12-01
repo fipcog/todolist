@@ -3,12 +3,11 @@ import { FilterType } from "../../App";
 import "./todolistkardStyles.scss"
 import { AddItemInput } from "../additeminput/AddItemInput";
 import { EditableSpan } from "../editablespan/EditableSpan";
-import { Checkbox } from "../checkbox/Checkbox";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "../../store/store";
 import { useDispatch } from "react-redux";
 import { changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC } from "../../reducers/todolistReducer";
-import { addTaskAC, changeTaskTitleAC, removeTaskAC, toggleIsCheckedAC } from "../../reducers/taskReducer";
+import { addTaskAC } from "../../reducers/taskReducer";
 import { Task } from "../task/Task";
 import { Button } from "../button/Button";
 
