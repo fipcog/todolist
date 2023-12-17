@@ -18,7 +18,7 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 // @ts-ignore
 window.store = store
 
-type ThunkCreatorType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>
+export type ThunkCreatorType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>
 
 type DispatchType = ThunkDispatch<AppRootStateType, unknown, AnyAction>
-const useAppDispatch = useDispatch<DispatchType>
+export const useAppDispatch = useDispatch<DispatchType>

@@ -1,31 +1,41 @@
 import { v1 } from "uuid";
 import { TasksType } from "../App";
-import { CreateNewTodolist, RemoveTodolist } from "./todolistReducer";
+import { CreateNewTodolist, RemoveTodolist, setTodolists } from "./todolistReducer";
+import { ThunkCreatorType } from "../store/store";
+import { TaskModel, TaskType, todolistAPI } from "../API/todolistAPI";
 
 const defaultState: TasksType = {
-    todolistID1:[
-        {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
-        {id: crypto.randomUUID(), title: "JS", isDone: true},
-        {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
-        {id: crypto.randomUUID(), title: "Rest API", isDone: false},
-        {id: crypto.randomUUID(), title: "GraphQL", isDone: false},
-    ],
-    todolistID2:[
-        {id: crypto.randomUUID(), title: "HTML&CSS2", isDone: true},
-        {id: crypto.randomUUID(), title: "JS2", isDone: true},
-        {id: crypto.randomUUID(), title: "ReactJS2", isDone: false},
-        {id: crypto.randomUUID(), title: "Rest API2", isDone: false},
-        {id: crypto.randomUUID(), title: "GraphQL2", isDone: false},
-    ]
+    // todolistID1:[
+    //     {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
+    //     {id: crypto.randomUUID(), title: "JS", isDone: true},
+    //     {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
+    //     {id: crypto.randomUUID(), title: "Rest API", isDone: false},
+    //     {id: crypto.randomUUID(), title: "GraphQL", isDone: false},
+    // ],
+    // todolistID2:[
+    //     {id: crypto.randomUUID(), title: "HTML&CSS2", isDone: true},
+    //     {id: crypto.randomUUID(), title: "JS2", isDone: true},
+    //     {id: crypto.randomUUID(), title: "ReactJS2", isDone: false},
+    //     {id: crypto.randomUUID(), title: "Rest API2", isDone: false},
+    //     {id: crypto.randomUUID(), title: "GraphQL2", isDone: false},
+    // ]
 }
 
-export const tasksReducer = (state = defaultState, action: MainActionsType):TasksType => {
+export const tasksReducer = (state = defaultState, action: MainActionsType): TasksType => {
     switch (action.type) {
-        case 'ADD_TASK':
-            return {...state, [action.payload.todolistID]: [{id: v1(), title: action.payload.taskName, isDone: false}, ...state[action.payload.todolistID]]}
-        
+        case 'SET_TODOLISTS': {
+            const newState = {...state}
+            action.payload.lists.forEach(td => newState[td.id] = [])
+            return newState
+        }
         case 'CREATE_TODOLIST':
-            return {...state, [action.payload.newTodolistID]: []}
+            return {...state, [action.payload.newTodolist.id]: []}
+
+        case 'SET_TASKS': 
+            return {...state, [action.payload.todolistID]: action.payload.tasks}
+
+        case 'ADD_TASK':
+            return {...state, [action.payload.todolistID]: [action.payload.task, ...state[action.payload.todolistID]]}
 
         case 'REMOVE_TODOLIST':
             const newState: TasksType = {...state}
@@ -37,7 +47,7 @@ export const tasksReducer = (state = defaultState, action: MainActionsType):Task
 
         case 'TOGGLE_TASK_ISCHECKED': 
             return {...state, [action.payload.todolistID]: [...state[action.payload.todolistID]
-                                                            .map(task => task.id === action.payload.taskID ? {...task, isDone: !task.isDone}: task)]}    
+                                                            .map(task => task.id === action.payload.taskID ? {...task, status: action.payload.status} : task)]}    
             
         case 'CHANGE_TASK_TITLE': 
             return {...state, [action.payload.todolistID]: state[action.payload.todolistID]
@@ -48,15 +58,22 @@ export const tasksReducer = (state = defaultState, action: MainActionsType):Task
     }
 }
 
-type MainActionsType = AddTask | RemoveTask | ToggleIsChecked | ChangeTaskTitle | CreateNewTodolist | RemoveTodolist
+type MainActionsType = AddTask 
+                                | RemoveTask 
+                                | ToggleIsChecked 
+                                | ChangeTaskTitle 
+                                | CreateNewTodolist 
+                                | RemoveTodolist 
+                                | setTodolists
+                                | SetTasks
 
 type AddTask = ReturnType<typeof addTaskAC>
-export const addTaskAC = (todolistID: string, taskName: string) => {
+export const addTaskAC = (todolistID: string, task: TaskType) => {
     return {
         type: 'ADD_TASK',
         payload: {
             todolistID,
-            taskName
+            task
         }
     } as const
 }
@@ -73,18 +90,19 @@ export const removeTaskAC = (todolistID: string, taskId: string) => {
 }
 
 type ToggleIsChecked = ReturnType<typeof toggleIsCheckedAC>
-export const toggleIsCheckedAC = (todolistID: string, taskID: string) => {
+export const toggleIsCheckedAC = (todolistID: string, taskID: string, status: number) => {
     return {
         type: 'TOGGLE_TASK_ISCHECKED',
         payload: {
             todolistID,
-            taskID
+            taskID,
+            status
         }
     }   as const
 }
 
 type ChangeTaskTitle = ReturnType<typeof changeTaskTitleAC>
-export const changeTaskTitleAC = (todolistID: string, taskID: string ,taskTitle: string) => {
+export const changeTaskTitleAC = (todolistID: string, taskID: string, taskTitle: string) => {
     return {
         type: 'CHANGE_TASK_TITLE',
         payload: {
@@ -93,4 +111,74 @@ export const changeTaskTitleAC = (todolistID: string, taskID: string ,taskTitle:
             taskTitle
         }
     } as const
+}
+
+type SetTasks = ReturnType<typeof setTasksAC>
+export const setTasksAC = (todolistID: string, tasks: TaskType[]) => {
+    return {
+        type: 'SET_TASKS',
+        payload: {
+            todolistID,
+            tasks
+        }
+    } as const
+}
+
+export const setTasksTC = (todolistId: string): ThunkCreatorType => {
+    return (dispatch) => {
+        todolistAPI.getTasks(todolistId)
+        .then(res => dispatch(setTasksAC(todolistId, res.data.item)))
+    }
+}
+
+export const addTaskTC = (todolistId: string, title: string): ThunkCreatorType => {
+    return (dispatch) => {
+        todolistAPI.createTask(todolistId, title)
+        .then(res => dispatch(addTaskAC(todolistId, res.data.data.item)))
+    }
+}
+
+export const removeTaskTC = (todolistId: string, taskId: string): ThunkCreatorType => {
+    return (dispatch) => {
+        todolistAPI.deleteTask(todolistId, taskId)
+        .then(res => dispatch(removeTaskAC(todolistId, taskId)))
+    }
+}
+
+export const changeTaskTitleTC = (todolistId: string, taskId: string, title: string): ThunkCreatorType => {
+    return (dispatch, getState) => {
+        const task = getState().tasks[todolistId].find(t => t.id === taskId)
+        if(task) {
+            const model: TaskModel = {
+                title,
+                description: task.description,
+                status: task.status,
+                priority: task.priority,
+                startDate: task.startDate,
+                deadline: task.deadline,
+            }
+
+            todolistAPI.updateTask(todolistId, taskId, model)
+            .then(res => dispatch(changeTaskTitleAC(todolistId, taskId, title)))
+        }
+    }
+}
+
+export const toggleTaskCompletedTC = (todolistId: string, taskId: string, status: number): ThunkCreatorType => {
+    return (dispatch, getState) => {
+        const task = getState().tasks[todolistId].find(t => t.id === taskId)
+        if(task) {
+            const model: TaskModel = {
+                title: task.title,
+                description: task.description,
+                status: status,
+                priority: task.priority,
+                startDate: task.startDate,
+                deadline: task.deadline,
+            }
+
+            todolistAPI.updateTask(todolistId, taskId, model)
+            .then(res => dispatch(toggleIsCheckedAC(todolistId, taskId, status)))
+        }
+    }
 }

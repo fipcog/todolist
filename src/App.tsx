@@ -1,19 +1,17 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './App.css';
-import { TodoListCard, TaskType } from './components/todolistkard/TodoListCard';
+import { TodoListCard } from './components/todolistkard/TodoListCard';
 import { AddItemInput } from './components/additeminput/AddItemInput';
-import { createNewTodolistAC } from './reducers/todolistReducer';
+import { TodolistCompletedType, createNewTodolistTC, setTodolistsTC } from './reducers/todolistReducer';
 import { useSelector } from 'react-redux';
-import { AppRootStateType } from './store/store';
+import { AppRootStateType, useAppDispatch } from './store/store';
 import { useDispatch } from 'react-redux';
+import { TaskType } from './API/todolistAPI';
+
 
 export type FilterType = 'all' | 'active' | 'completed'
 
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterType
-}
+
 
 export type TasksType = {
     [key: string]: TaskType[]
@@ -21,11 +19,15 @@ export type TasksType = {
 
 export const App: React.FC = () => {
 
-    const todolists = useSelector<AppRootStateType, TodolistType[]>((state) => state.todolists)
-    const dispatch = useDispatch()
+    const todolists = useSelector<AppRootStateType, TodolistCompletedType[]>((state) => state.todolists)
+    const dispatch = useAppDispatch()
+
+    useEffect(()=> {
+        dispatch(setTodolistsTC())
+    } ,[])
 
     const createNewTodoList = useCallback((title: string): void => {
-        dispatch(createNewTodolistAC(title))
+        dispatch(createNewTodolistTC(title))
     }, [dispatch])
 
     return (

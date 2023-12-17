@@ -1,10 +1,11 @@
 import { memo } from 'react';
-import { TaskType } from '../todolistkard/TodoListCard';
 import { useDispatch } from 'react-redux';
-import { changeTaskTitleAC, removeTaskAC, toggleIsCheckedAC } from '../../reducers/taskReducer';
+import { changeTaskTitleTC, removeTaskTC, toggleTaskCompletedTC } from '../../reducers/taskReducer';
 import { Checkbox } from '../checkbox/Checkbox';
 import { EditableSpan } from '../editablespan/EditableSpan';
 import './taskStyles.scss'
+import { TaskStatuses, TaskType } from '../../API/todolistAPI';
+import { useAppDispatch } from '../../store/store';
 
 
 type PropsType = {
@@ -13,24 +14,25 @@ type PropsType = {
 }
 
 export const Task: React.FC<PropsType> = memo(({todolistID, task}) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const toggleIsCheckedHandler = (): void => {
-        dispatch(toggleIsCheckedAC(todolistID , task.id))
+        const status = task.status === TaskStatuses.Completed ? TaskStatuses.InProgress : TaskStatuses.Completed
+        dispatch(toggleTaskCompletedTC(todolistID , task.id, status))
     }
 
     const removeTaskHandler = (): void => {
-        dispatch(removeTaskAC(todolistID, task.id))
+        dispatch(removeTaskTC(todolistID, task.id))
     }
 
     const changeTaskTitleHandler = (taskTitle: string): void => {
-        dispatch(changeTaskTitleAC(todolistID, task.id, taskTitle))
+        dispatch(changeTaskTitleTC(todolistID, task.id, taskTitle))
     }
     
     return( 
         <li className='task'>
-            <Checkbox id={task.id} checked={task.isDone} callback={() => toggleIsCheckedHandler()} />
-            <EditableSpan spanProps={{className: task.isDone ? "task_done" : ""}}
+            <Checkbox id={task.id} checked={task.status === TaskStatuses.Completed} callback={() => toggleIsCheckedHandler()} />
+            <EditableSpan spanProps={{className: task.status === TaskStatuses.Completed ? "task_done" : ""}}
                 oldTitle={task.title} 
                 callback={changeTaskTitleHandler} 
                 maxLength={15}
