@@ -46,7 +46,7 @@ type ResponseType<T = {}> = {
 }
 
 type GetTasksResponse = {
-    item: TaskType[]
+    items: TaskType[]
     totalCount: number
     error: string 
 }
