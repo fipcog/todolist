@@ -1,17 +1,19 @@
-import { TodolistType } from "../App"
-import { changeTodolistFilterAC, changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from "./todolistReducer"
 
-let initialState : TodolistType[]
+import { FilterType } from "../App"
+import { TodolistCompletedType, changeTodolistFilterAC, changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from "./todolistReducer"
+
+let initialState : TodolistCompletedType[]
 
 beforeEach(()=> {
     initialState = [
-        {id: '0', title: 'What to learn', filter: 'all'},
-        {id: '1', title: 'What to buy', filter: 'all'},
+        {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: ''},
+        {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: ''},
     ]
 })
 
 test('adding new todo', () => {
-    const action = createNewTodolistAC('earn')
+    const newTodo = {id: '0', title: 'NewTodo', order: 1, addedDate: '', filter: 'all' as FilterType}
+    const action = createNewTodolistAC(newTodo)
     const newState = todolistReducer(initialState, action)
 
     expect(newState.length).toBe(3)

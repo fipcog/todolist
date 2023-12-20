@@ -4,18 +4,36 @@ import { removeTodolistAC } from "./todolistReducer";
 test('property with todolistId should be deleted', () => {
     const startState = {
         "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c249239825",
+                "title": "NewTask",
+                "description": '',
+                "todoListId": "f7043da4-1fdb-4e7d-9987-a3e2916a1fb5",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
         ],
         "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c249239825",
+                "title": "NewTask",
+                "description": '',
+                "todoListId": "f7043da4-1fdb-4e7d-9987-a3e2916a1fb5",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
         ]
     };
 
-    const action = removeTodolistAC("todolistId2");
+    const action = removeTodolistAC("todolistId1");
 
     const endState = tasksReducer(startState, action)
 
@@ -23,5 +41,5 @@ test('property with todolistId should be deleted', () => {
     const keys = Object.keys(endState);
 
     expect(keys.length).toBe(1);
-    expect(endState["todolistId2"]).not.toBeDefined();
+    expect(endState["todolistId1"]).not.toBeDefined();
 });

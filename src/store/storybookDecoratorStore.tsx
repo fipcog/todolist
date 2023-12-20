@@ -12,24 +12,86 @@ const rootReducer = combineReducers({
 
 const initialStore :AppRootStateType = {
     tasks: {
-        todolistID1:[
-            {id: '0', title: "HTML&CSS", isDone: true},
-            {id: '1', title: "JS", isDone: true},
-            {id: '2', title: "ReactJS", isDone: false},
-            {id: '3', title: "Rest API", isDone: false},
-            {id: '4', title: "GraphQL", isDone: false},
+        "todolistId1": [
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c249239825",
+                "title": "NewTask",
+                "description": '',
+                "todoListId": "todolistId1",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c2492398252",
+                "title": "NewTask2",
+                "description": '',
+                "todoListId": "todolistId1",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c2492398253",
+                "title": "NewTask3",
+                "description": '',
+                "todoListId": "todolistId1",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
         ],
-        todolistID2:[
-            {id: crypto.randomUUID(), title: "HTML&CSS2", isDone: true},
-            {id: crypto.randomUUID(), title: "JS2", isDone: true},
-            {id: crypto.randomUUID(), title: "ReactJS2", isDone: false},
-            {id: crypto.randomUUID(), title: "Rest API2", isDone: false},
-            {id: crypto.randomUUID(), title: "GraphQL2", isDone: false},
+        "todolistId2": [
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c2492398254",
+                "title": "NewTask4",
+                "description": '',
+                "todoListId": "todolistId2",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c2492398255",
+                "title": "NewTask5",
+                "description": '',
+                "todoListId": "todolistId2",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c2492398256",
+                "title": "NewTask6",
+                "description": '',
+                "todoListId": "todolistId2",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
         ]
     },
     todolists: [
-        {id:'todolistID1', title: 'What to learn', filter: 'all'},
-        {id:'todolistID2', title: 'What to buy', filter: 'all'},
+        {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: '',},
+        {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: '',},
     ]
 }
 

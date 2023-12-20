@@ -34,7 +34,7 @@ export const todolistAPI = {
 
 export type TodolistType = {
     id: string
-    addedDate: Date
+    addedDate: string
     order: number
     title: string
 }
@@ -54,15 +54,14 @@ type GetTasksResponse = {
 export type TaskType = {
     description: string
     title: string
-    completed: boolean
     status: number
     priority: number
-    startDate: Date
-    deadline: Date
+    startDate: string
+    deadline: string
     id: string
     todoListId: string
     order: number
-    addedDate: Date
+    addedDate: string
 }
 
 export type TaskModel =  {
@@ -70,8 +69,8 @@ export type TaskModel =  {
     description: string
     status: number
     priority: number
-    startDate: Date
-    deadline: Date
+    startDate: string
+    deadline: string
 }
 
 export enum TaskStatuses {

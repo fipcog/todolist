@@ -3,53 +3,67 @@ import { addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer, toggleIsCheck
 
 let initialState: TasksType
 
-beforeEach(()=>{
+beforeEach(() => {
     initialState = {
-        ['0']:[
-            {id: 'task_0', title: "HTML&CSS", isDone: true},
-            {id: 'task_1', title: "JS", isDone: true},
-            {id: 'task_2', title: "ReactJS", isDone: false},
-            {id: 'task_3', title: "Rest API", isDone: false},
-            {id: 'task_4', title: "GraphQL", isDone: false},
-        ],
-        ['1']:[
-            {id: 'task_0', title: "HTML&CSS2", isDone: true},
-            {id: 'task_1', title: "JS2", isDone: true},
-            {id: 'task_2', title: "ReactJS2", isDone: false},
-            {id: 'task_3', title: "Rest API2", isDone: false},
-            {id: 'task_4', title: "GraphQL2", isDone: false},
+        ['0']: [
+            {
+                "id": "63211302-16c2-4a30-a2b1-50c249239825",
+                "title": "NewTask",
+                "description": '',
+                "todoListId": "f7043da4-1fdb-4e7d-9987-a3e2916a1fb5",
+                "order": 0,
+                "status": 0,
+                "priority": 1,
+                "startDate": '',
+                "deadline": '',
+                "addedDate": "2023-12-17T13:07:10.39"
+            },
         ]
     }
 })
 
-test('adding task', ()=>{
-    const action = addTaskAC('0', 'new task')
+test('adding task', () => {
+    const task = {
+        "id": "63211302-16c2-4a30-a2b1-50c249239825",
+        "title": "NewTask",
+        "description": '',
+        "todoListId": "f7043da4-1fdb-4e7d-9987-a3e2916a1fb5",
+        "order": 0,
+        "status": 0,
+        "priority": 1,
+        "startDate": '',
+        "deadline": '',
+        "addedDate": "2023-12-17T13:07:10.39"
+    }
+    const action = addTaskAC('0', task)
     const newState = tasksReducer(initialState, action)
 
-    expect(newState['0'].length).toBe(6)
-    expect(newState['0'][0].title).toBe('new task')
-}) 
+    expect(newState['0'].length).toBe(2)
+})
 
-test('removing task', ()=>{
-    const action = removeTaskAC('0', 'task_0')
+test('removing task', () => {
+    const tId = "63211302-16c2-4a30-a2b1-50c249239825"
+    const action = removeTaskAC('0', tId)
     const newState = tasksReducer(initialState, action)
 
-    expect(newState['0'].length).toBe(4)
-}) 
+    expect(newState['0'].length).toBe(0)
+})
 
-test('changing idDone task', ()=>{
-    const action = toggleIsCheckedAC('0', 'task_0')
+test('changing idDone task', () => {
+    const tId = "63211302-16c2-4a30-a2b1-50c249239825"
+    const action = toggleIsCheckedAC('0', tId, 1)
     const newState = tasksReducer(initialState, action)
 
-    expect(newState['0'][0].isDone).toBe(false)
-}) 
+    expect(newState['0'][0].status).toBe(1)
+})
 
-test('changing task title', ()=>{
-    const action = changeTaskTitleAC('0', 'task_0', 'new title')
+test('changing task title', () => {
+    const tId = "63211302-16c2-4a30-a2b1-50c249239825"
+    const action = changeTaskTitleAC('0', tId, 'new title')
     const newState = tasksReducer(initialState, action)
 
     expect(newState['0'][0].title).toBe('new title')
-}) 
+})
 
 
 

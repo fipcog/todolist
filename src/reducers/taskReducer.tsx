@@ -6,18 +6,10 @@ import { TaskModel, TaskType, todolistAPI } from "../API/todolistAPI";
 
 const defaultState: TasksType = {
     // todolistID1:[
-    //     {id: crypto.randomUUID(), title: "HTML&CSS", isDone: true},
-    //     {id: crypto.randomUUID(), title: "JS", isDone: true},
-    //     {id: crypto.randomUUID(), title: "ReactJS", isDone: false},
-    //     {id: crypto.randomUUID(), title: "Rest API", isDone: false},
-    //     {id: crypto.randomUUID(), title: "GraphQL", isDone: false},
+
     // ],
     // todolistID2:[
-    //     {id: crypto.randomUUID(), title: "HTML&CSS2", isDone: true},
-    //     {id: crypto.randomUUID(), title: "JS2", isDone: true},
-    //     {id: crypto.randomUUID(), title: "ReactJS2", isDone: false},
-    //     {id: crypto.randomUUID(), title: "Rest API2", isDone: false},
-    //     {id: crypto.randomUUID(), title: "GraphQL2", isDone: false},
+
     // ]
 }
 
@@ -115,6 +107,7 @@ export const changeTaskTitleAC = (todolistID: string, taskID: string, taskTitle:
 
 type SetTasks = ReturnType<typeof setTasksAC>
 export const setTasksAC = (todolistID: string, tasks: TaskType[]) => {
+    // debugger
     return {
         type: 'SET_TASKS',
         payload: {
