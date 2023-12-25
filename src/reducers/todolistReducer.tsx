@@ -2,6 +2,9 @@ import { v1 } from "uuid";
 import { FilterType } from "../App";
 import { TodolistType, todolistAPI } from "../API/todolistAPI";
 import { ThunkCreatorType } from "../store/store";
+import { setAppError, setAppStatus } from "./appReducer";
+import { AxiosError } from "axios";
+import { handleAppServerError, handleServerNetworkError } from "../utils/errorUtils";
 
 export type TodolistCompletedType = TodolistType & {filter: FilterType}
 
@@ -16,7 +19,7 @@ export const todolistReducer = (state = defaultState, action: MainActionsType): 
             return action.payload.lists.map(td => ({...td, filter: 'all'}))
 
         case 'CREATE_TODOLIST':
-            return [...state, action.payload.newTodolist]
+            return [action.payload.newTodolist, ...state]
 
         case 'REMOVE_TODOLIST':
             return state.filter(tdList => tdList.id !== action.payload.todolstID)
@@ -87,29 +90,69 @@ export const changeTodolistFilterAC = (todolistId: string, newFilter: FilterType
 }
 
 export const setTodolistsTC = (): ThunkCreatorType => {
-    return (dicpatch) => {
+    return (dispatch) => {
+        dispatch(setAppStatus('loading'))
         return todolistAPI.getTodolists()
-        .then(res => dicpatch(setTodolistsAC(res.data)))
+        .then(res => {
+            dispatch(setTodolistsAC(res.data))
+            dispatch(setAppStatus('succeeded'))
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     }
 }
 
 export const  createNewTodolistTC = (title: string): ThunkCreatorType => {
     return (dispatch) => {
+        dispatch(setAppStatus('loading'))
         todolistAPI.createTodolist(title)
-        .then(res => dispatch(createNewTodolistAC({...res.data.data.item, filter: 'all'})))
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(createNewTodolistAC({...res.data.data.item, filter: 'all'}))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                handleAppServerError<{item: TodolistType}>(res.data, dispatch)
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     }
 }
 
 export const removeTodolistTC = (todolistId: string): ThunkCreatorType => {
     return (dispatch) => {
+        dispatch(setAppStatus('loading'))
         todolistAPI.deleteTodolist(todolistId)
-        .then(res=> dispatch(removeTodolistAC(todolistId)))
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(removeTodolistAC(todolistId))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                handleAppServerError(res.data, dispatch)
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     }
 }
 
 export const changeTodolistTitleTC = (todolistId: string, title: string): ThunkCreatorType => {
     return (dispatch, getState) => {
+        dispatch(setAppStatus('loading'))
         todolistAPI.updateTodolist(todolistId, title)
-        .then(res => dispatch(changeTodolistTitleAC(todolistId, title)))
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(changeTodolistTitleAC(todolistId, title))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                handleAppServerError(res.data, dispatch)
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     } 
 }

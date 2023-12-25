@@ -3,6 +3,9 @@ import { TasksType } from "../App";
 import { CreateNewTodolist, RemoveTodolist, setTodolists } from "./todolistReducer";
 import { ThunkCreatorType } from "../store/store";
 import { TaskModel, TaskType, todolistAPI } from "../API/todolistAPI";
+import { AxiosError } from "axios";
+import { handleAppServerError, handleServerNetworkError } from "../utils/errorUtils";
+import { setAppError, setAppStatus } from "./appReducer";
 
 const defaultState: TasksType = {
     // todolistID1:[
@@ -119,27 +122,62 @@ export const setTasksAC = (todolistID: string, tasks: TaskType[]) => {
 
 export const setTasksTC = (todolistId: string): ThunkCreatorType => {
     return (dispatch) => {
+        dispatch(setAppStatus('loading'))
         todolistAPI.getTasks(todolistId)
-        .then(res => dispatch(setTasksAC(todolistId, res.data.items)))
+        .then(res => {
+            if(!res.data.error) {
+                dispatch(setTasksAC(todolistId, res.data.items))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                dispatch(setAppError(res.data.error))
+                dispatch(setAppStatus('failed'))
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     }
 }
 
 export const addTaskTC = (todolistId: string, title: string): ThunkCreatorType => {
     return (dispatch) => {
+        dispatch(setAppStatus('loading'))
         todolistAPI.createTask(todolistId, title)
-        .then(res => dispatch(addTaskAC(todolistId, res.data.data.item)))
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(addTaskAC(todolistId, res.data.data.item))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                handleAppServerError<{item: TaskType}>(res.data, dispatch)
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     }
 }
 
 export const removeTaskTC = (todolistId: string, taskId: string): ThunkCreatorType => {
     return (dispatch) => {
+        dispatch(setAppStatus('loading'))
         todolistAPI.deleteTask(todolistId, taskId)
-        .then(res => dispatch(removeTaskAC(todolistId, taskId)))
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(removeTaskAC(todolistId, taskId))
+                dispatch(setAppStatus('succeeded'))
+            } else {
+                handleAppServerError(res.data, dispatch)
+            }
+        })
+        .catch((err: AxiosError) => {
+            handleServerNetworkError(err.message, dispatch)
+        })
     }
 }
 
 export const changeTaskTitleTC = (todolistId: string, taskId: string, title: string): ThunkCreatorType => {
     return (dispatch, getState) => {
+        dispatch(setAppStatus('loading'))
         const task = getState().tasks[todolistId].find(t => t.id === taskId)
         if(task) {
             const model: TaskModel = {
@@ -152,13 +190,24 @@ export const changeTaskTitleTC = (todolistId: string, taskId: string, title: str
             }
 
             todolistAPI.updateTask(todolistId, taskId, model)
-            .then(res => dispatch(changeTaskTitleAC(todolistId, taskId, title)))
+            .then(res => {
+                if(res.data.resultCode === 0) {
+                    dispatch(changeTaskTitleAC(todolistId, taskId, title))
+                    dispatch(setAppStatus('succeeded'))
+                } else {
+                    handleAppServerError<{item: TaskType}>(res.data, dispatch)
+                }
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(err.message, dispatch)
+            })
         }
     }
 }
 
 export const toggleTaskCompletedTC = (todolistId: string, taskId: string, status: number): ThunkCreatorType => {
     return (dispatch, getState) => {
+        dispatch(setAppStatus('loading'))
         const task = getState().tasks[todolistId].find(t => t.id === taskId)
         if(task) {
             const model: TaskModel = {
@@ -171,7 +220,17 @@ export const toggleTaskCompletedTC = (todolistId: string, taskId: string, status
             }
 
             todolistAPI.updateTask(todolistId, taskId, model)
-            .then(res => dispatch(toggleIsCheckedAC(todolistId, taskId, status)))
+            .then(res => {
+                if(res.data.resultCode === 0) {
+                    dispatch(toggleIsCheckedAC(todolistId, taskId, status))
+                    dispatch(setAppStatus('succeeded'))
+                } else {
+                    handleAppServerError<{item: TaskType}>(res.data, dispatch)
+                }
+            })
+            .catch((err: AxiosError) => {
+                handleServerNetworkError(err.message, dispatch)
+            })
         }
     }
 }

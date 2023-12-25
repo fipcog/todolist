@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { AppRootStateType, useAppDispatch } from './store/store';
 import { useDispatch } from 'react-redux';
 import { TaskType } from './API/todolistAPI';
+import { Preloader } from './components/preloader/Preloader';
+import { RequestStatusType } from './reducers/appReducer';
 
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -19,6 +21,7 @@ export type TasksType = {
 
 export const App: React.FC = () => {
 
+    const appStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const todolists = useSelector<AppRootStateType, TodolistCompletedType[]>((state) => state.todolists)
     const dispatch = useAppDispatch()
 
@@ -35,6 +38,7 @@ export const App: React.FC = () => {
             <div className='add_todo_wrapper'>
                 <AddItemInput callback={createNewTodoList} className='task_input'/>
             </div>
+            {appStatus === 'loading' && <Preloader/>}
         {
             todolists.map(tdList => {
                 return (

@@ -92,7 +92,11 @@ const initialStore :AppRootStateType = {
     todolists: [
         {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: '',},
         {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: '',},
-    ]
+    ],
+    app: {
+        status: 'succeeded',
+        error: null
+    }
 }
 
 const StorybookStore = legacy_createStore(rootReducer, initialStore)
