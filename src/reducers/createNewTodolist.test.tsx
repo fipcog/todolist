@@ -1,6 +1,6 @@
 import { FilterType } from "../App";
 import { tasksReducer } from "./taskReducer";
-import { createNewTodolistAC } from "./todolistReducer";
+import { TodolistCompletedType, createNewTodolistAC } from "./todolistReducer";
 
 test('new array should be added when new todolist is added', () => {
     const startState = {
@@ -20,7 +20,7 @@ test('new array should be added when new todolist is added', () => {
         ]
     };
 
-    const newTodo = {id: '0', title: 'What to learn', order: 1, addedDate: '', filter: 'all' as FilterType}
+    const newTodo: TodolistCompletedType = {id: '0', title: 'What to learn', order: 1, addedDate: '', status: 'idle', filter: 'all'}
 
     const action = createNewTodolistAC(newTodo);
 

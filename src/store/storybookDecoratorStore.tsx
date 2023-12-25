@@ -90,8 +90,8 @@ const initialStore :AppRootStateType = {
         ]
     },
     todolists: [
-        {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: '',},
-        {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: '',},
+        {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: '', status: 'idle'},
+        {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: '', status: 'idle'},
     ],
     app: {
         status: 'succeeded',

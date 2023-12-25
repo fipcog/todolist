@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { TaskType } from './API/todolistAPI';
 import { Preloader } from './components/preloader/Preloader';
 import { RequestStatusType } from './reducers/appReducer';
+import { ErrorSnackbar } from './components/errorSnackbar/ErrorSnackbar';
 
 
 export type FilterType = 'all' | 'active' | 'completed'
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
                 )
             })
         }
+        <ErrorSnackbar/>
         </div>
     );
 }

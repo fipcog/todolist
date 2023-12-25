@@ -13,6 +13,8 @@ export const appReducer = (state: InitialAppStateType = initialAppState, action:
     switch(action.type) {
         case 'SET_APP_STATUS':
             return {...state, status: action.payload.status}
+        case 'SET_APP_ERROR':
+            return {...state, error: action.payload.error}
         default:
             return state
     }
@@ -31,7 +33,7 @@ export const setAppStatus = (status: RequestStatusType) => {
 }
 
 type SetAppErrorType = ReturnType<typeof setAppError>
-export const setAppError = (error: string) => {
+export const setAppError = (error: string|null) => {
     return {
         type: 'SET_APP_ERROR',
         payload: {

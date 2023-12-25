@@ -6,13 +6,13 @@ let initialState : TodolistCompletedType[]
 
 beforeEach(()=> {
     initialState = [
-        {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: ''},
-        {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: ''},
+        {id: '0', title: 'What to learn', filter: 'all', order: 1, addedDate: '', status: 'idle'},
+        {id: '1', title: 'What to buy', filter: 'all', order: 1, addedDate: '', status: 'idle'},
     ]
 })
 
 test('adding new todo', () => {
-    const newTodo = {id: '0', title: 'NewTodo', order: 1, addedDate: '', filter: 'all' as FilterType}
+    const newTodo: TodolistCompletedType = {id: '0', title: 'NewTodo', order: 1, addedDate: '', status: 'idle', filter: 'all'}
     const action = createNewTodolistAC(newTodo)
     const newState = todolistReducer(initialState, action)
 
