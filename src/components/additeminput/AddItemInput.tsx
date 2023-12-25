@@ -1,12 +1,14 @@
 import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react"
 import "./AddItemInputStyles.scss"
+import { RequestStatusType } from "../../reducers/appReducer"
 
 export type AddItemInputPropsTypes = {
     callback: (title: string) => void
     className?: string
+    status?: RequestStatusType
 }
 
-export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className, callback}) => {
+export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className, callback, status}) => {
 
     const [inputValue, setInputValue] = useState<string>("")
     const [errorMassage, setErrorMassage] = useState<string | null>(null)
@@ -39,8 +41,9 @@ export const AddItemInput: React.FC<AddItemInputPropsTypes> = memo(({className, 
                     className={errorMassage ? "error" : undefined} 
                     onChange={onInputChangeHandler} 
                     onKeyDown={onInputBtnPressHandler}
+                    disabled={status !== 'loading' ? false : true}
             />
-            <button onClick={addNewItem}>+</button>
+            <button onClick={addNewItem} disabled={status !== 'loading' ? false : true}>+</button>
             {errorMassage && <span className="error_massage">{errorMassage}</span>}
         </div>
     )

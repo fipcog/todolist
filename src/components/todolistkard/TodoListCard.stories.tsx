@@ -25,7 +25,7 @@ type Story = StoryObj<typeof TodoListCard>;
 const ServiceTodolistComponent = () => {
     let TDList = useSelector<AppRootStateType, TodolistCompletedType>((state=> state.todolists[0]))
     if(!TDList) TDList = {id:'todolistID1', title: 'What to learn', filter: 'all', order: 1, addedDate: '', status: 'idle'}
-    return <TodoListCard todolistID={TDList.id} title={TDList.title} tdFilter={TDList.filter}/>
+    return <TodoListCard todolistID={TDList.id} title={TDList.title} tdFilter={TDList.filter} status={TDList.status}/>
 }
 
 export const TodoListCardStory: Story = {

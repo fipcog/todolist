@@ -11,6 +11,7 @@ import { addTaskAC, addTaskTC, setTasksTC } from "../../reducers/taskReducer";
 import { Task } from "../task/Task";
 import { Button } from "../button/Button";
 import { TaskStatuses, TaskType } from "../../API/todolistAPI";
+import { RequestStatusType } from "../../reducers/appReducer";
 
 type TodoTasksType = TaskType[]
 
@@ -18,6 +19,7 @@ type TodoListKardPropsType = {
     todolistID: string
     title: string
     tdFilter: FilterType
+    status: RequestStatusType
 }
 
 export const TodoListCard: React.FC<TodoListKardPropsType> = memo((props) => {
@@ -25,6 +27,7 @@ export const TodoListCard: React.FC<TodoListKardPropsType> = memo((props) => {
         todolistID,
         title,
         tdFilter,
+        status
     } = props
 
     useEffect(() => {
@@ -47,7 +50,7 @@ export const TodoListCard: React.FC<TodoListKardPropsType> = memo((props) => {
     }, [tasks, tdFilter])
 
     const ListItems = filteredTasks.map((task) => {
-        return <Task todolistID={todolistID} task={task} key={task.id} />
+        return <Task todolistID={todolistID} task={task} key={task.id} status={status}/>
     })
 
     const removeTodolistHendler = useCallback((): void => {
@@ -68,14 +71,15 @@ export const TodoListCard: React.FC<TodoListKardPropsType> = memo((props) => {
 
     return (
         <div className="todolist">
-            <button onClick={removeTodolistHendler} />
+            <button onClick={removeTodolistHendler} disabled={status !== 'loading' ? false : true}/>
             <div className="todolist_content_wrapper">
                 <h3><EditableSpan
                     oldTitle={title}
                     callback={changeTodolistTitleHandler}
                     maxLength={13}
+                    disabled={status !== 'loading' ? false : true}
                 /></h3>
-                <AddItemInput callback={addTaskHandler} className={"card_input"} />
+                <AddItemInput callback={addTaskHandler} className={"card_input"} status={status}/>
                 {tasks.length ? <ul className="task_list">{ListItems}</ul> : <ul>No task found</ul>}
                 <div className="filter_wrapper">
                     <Button className={"filter_button " + (tdFilter === 'all' ? "active" : '')}

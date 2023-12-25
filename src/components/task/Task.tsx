@@ -6,14 +6,16 @@ import { EditableSpan } from '../editablespan/EditableSpan';
 import './taskStyles.scss'
 import { TaskStatuses, TaskType } from '../../API/todolistAPI';
 import { useAppDispatch } from '../../store/store';
+import { RequestStatusType } from '../../reducers/appReducer';
 
 
 type PropsType = {
     todolistID: string
     task: TaskType
+    status: RequestStatusType
 }
 
-export const Task: React.FC<PropsType> = memo(({todolistID, task}) => {
+export const Task: React.FC<PropsType> = memo(({todolistID, task, status}) => {
     const dispatch = useAppDispatch()
 
     const toggleIsCheckedHandler = (): void => {
@@ -31,13 +33,18 @@ export const Task: React.FC<PropsType> = memo(({todolistID, task}) => {
     
     return( 
         <li className='task'>
-            <Checkbox id={task.id} checked={task.status === TaskStatuses.Completed} callback={() => toggleIsCheckedHandler()} />
+            <Checkbox id={task.id} 
+                checked={task.status === TaskStatuses.Completed} 
+                callback={() => toggleIsCheckedHandler()}
+                disabled={status !== 'loading' ? false : true}
+            />
             <EditableSpan spanProps={{className: task.status === TaskStatuses.Completed ? "task_done" : ""}}
                 oldTitle={task.title} 
                 callback={changeTaskTitleHandler} 
                 maxLength={15}
+                disabled={status !== 'loading' ? false : true}
             />
-            <button className='tasks_btn' onClick={() => removeTaskHandler()}>x</button>
+            <button className='tasks_btn' onClick={() => removeTaskHandler()} disabled={status !== 'loading' ? false : true}>x</button>
         </li>
     )
 })

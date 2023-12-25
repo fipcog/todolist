@@ -33,7 +33,7 @@ const ServiceTaskComponent = () => {
         "deadline": '',
         "addedDate": "2023-12-17T13:07:10.39"
     }
-    return <Task todolistID={'todolistID1'} task={task}/>
+    return <Task todolistID={'todolistID1'} task={task} status={'idle'}/>
 }
 
 export const TaskStory: Story = {

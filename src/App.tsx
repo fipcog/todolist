@@ -48,6 +48,7 @@ export const App: React.FC = () => {
                         todolistID = {tdList.id}
                         tdFilter = {tdList.filter}
                         title = {tdList.title} 
+                        status = {tdList.status}
                     />
                 )
             })
