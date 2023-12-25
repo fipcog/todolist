@@ -11,6 +11,11 @@
     &:focus, &:hover {
         outline-color: purple;
     }
+
+    &:disabled {
+        border-color: rgb(97, 97, 97);
+        outline-color: rgb(97, 97, 97);
+    }
 }
 
 .task_done {

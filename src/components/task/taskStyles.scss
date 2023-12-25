@@ -48,5 +48,11 @@
             background-color: purple;
         }
     }
+
+    &:disabled {
+        &::before, &::after {
+            background-color: rgb(97, 97, 97);
+        }
+    }
 }
 

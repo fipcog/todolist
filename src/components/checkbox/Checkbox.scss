@@ -53,3 +53,12 @@
         background-color: purple;
     }
 }
+
+.checkbox:disabled + .checkboxLabel {
+    border-color: rgb(97, 97, 97);
+}
+
+.checkbox:checked:disabled + .checkboxLabel {
+    background-color: rgb(97, 97, 97);
+    border-color: rgb(97, 97, 97);
+}
