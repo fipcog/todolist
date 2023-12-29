@@ -3,7 +3,7 @@ import { LoginValues } from "../components/login/Login"
 
 export const loginAPI = {
     logIn(values: LoginValues) {
-        return instance.post<ResponseType<{userId: number}>>('/auth/login', {values})
+        return instance.post<ResponseType<{userId: number}>>('/auth/login', values)
     },
     logOut() {
         return instance.delete<ResponseType>('/auth/login')

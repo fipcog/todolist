@@ -4,6 +4,10 @@ import { Button } from "../button/Button";
 import './loginStyles.scss';
 import { Formik, useFormik } from "formik";
 import * as Yup from 'yup'
+import { AppRootStateType, useAppDispatch } from "../../store/store";
+import { logInTC } from "../../reducers/appReducer";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 
 export type LoginValues = {
@@ -18,6 +22,8 @@ const validationSchema = Yup.object().shape({
 })
 
 export const Login: FC = () => {
+    const isLogged = useSelector<AppRootStateType, boolean>(state => state.app.isLogged)
+    const dispatch = useAppDispatch()
     const {handleSubmit, getFieldProps, touched, errors, resetForm} = useFormik<LoginValues>({
         initialValues: {
             email: '',
@@ -25,11 +31,15 @@ export const Login: FC = () => {
             remember: false
         },
         onSubmit: (values) => {
-            console.log(values)
+            dispatch(logInTC(values))
             resetForm()
         },
         validationSchema
     })
+
+    if(isLogged) {
+        return <Navigate to={'/'}/>
+    }
 
     return <form className="login_form" onSubmit={handleSubmit}>
         <h1 className="login_header">Log in</h1>
