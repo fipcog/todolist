@@ -55,7 +55,6 @@ export const Todolists: React.FC = () => {
                 )
             })
         }
-        <ErrorSnackbar/>
         </div>
     );
 }

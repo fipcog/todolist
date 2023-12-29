@@ -1,6 +1,7 @@
 import { Dispatch } from "redux"
 import { setAppError, setAppStatus } from "../reducers/appReducer"
 import { ResponseType } from "../API/todolistAPI"
+import axios from "axios"
 
 export const handleServerNetworkError = (message: string, dispatch: Dispatch) => {
     dispatch(setAppStatus('failed'))

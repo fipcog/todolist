@@ -95,7 +95,9 @@ const initialStore :AppRootStateType = {
     ],
     app: {
         status: 'succeeded',
-        error: null
+        error: null,
+        isLogged: false,
+        isInitialized: false
     }
 }
 

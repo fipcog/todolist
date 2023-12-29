@@ -6,7 +6,7 @@ import { Formik, useFormik } from "formik";
 import * as Yup from 'yup'
 
 
-type InitialValue = {
+export type LoginValues = {
     email: string
     password: string
     remember: boolean
@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
 })
 
 export const Login: FC = () => {
-    const {handleSubmit, getFieldProps, touched, errors, resetForm} = useFormik<InitialValue>({
+    const {handleSubmit, getFieldProps, touched, errors, resetForm} = useFormik<LoginValues>({
         initialValues: {
             email: '',
             password: '',
@@ -56,7 +56,6 @@ export const Login: FC = () => {
                 <Checkbox id={'login_form_remember_checkbox'} {...getFieldProps('remember')}/>
                 Remember me
             </label>
-
             <Button type={'submit'} className={'login_btn'}>Login</Button>
         </fieldset>
     </form>
