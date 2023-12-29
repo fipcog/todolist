@@ -3,14 +3,14 @@ import './Checkbox.scss'
 
 type DefautInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 type Props = Omit<DefautInputProps, 'type'> & {
-    onChange: () => void
+    id: string
 }
 
 export const Checkbox: React.FC<Props> = memo((props) => {
-    const {id, checked, onChange, ...restProps} = props
+    const {id, ...restProps} = props
     return(
         <>
-            <input className="checkbox" id={id} type="checkbox" checked={checked} onChange={onChange} {...restProps}/>
+            <input className="checkbox" id={id} type="checkbox" {...restProps}/>
             <label className="checkboxLabel" htmlFor={id}></label>
         </>
     ) 

@@ -37,7 +37,6 @@
         }
     }
 
-    font-size: 1.1em;
 }
 
 .form_fields_wrapper {
@@ -52,8 +51,9 @@
 }
 
 .login_input_wrapper {
+    position: relative;
     width: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     input {
         width: 100%;
@@ -99,4 +99,11 @@
 
     background-color: rgb(175, 0, 175);
     color: white;
+}
+
+.error_message {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    color: tomato;
 }
