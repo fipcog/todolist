@@ -1,5 +1,4 @@
 import React, { memo, useCallback, useEffect, useMemo } from "react";
-import { FilterType } from "../../App";
 import "./todolistkardStyles.scss"
 import { AddItemInput } from "../additeminput/AddItemInput";
 import { EditableSpan } from "../editablespan/EditableSpan";
@@ -12,6 +11,7 @@ import { Task } from "../task/Task";
 import { Button } from "../button/Button";
 import { TaskStatuses, TaskType } from "../../API/todolistAPI";
 import { RequestStatusType } from "../../reducers/appReducer";
+import { FilterType } from "../todolists/Todolists";
 
 type TodoTasksType = TaskType[]
 

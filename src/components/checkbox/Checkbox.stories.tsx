@@ -10,7 +10,7 @@ const meta: Meta<typeof Checkbox> = {
     },
     tags: ['autodocs'],
     argTypes: {
-        callback: {
+        onChange: {
             action: 'clicked'
         }
     },

@@ -1,4 +1,5 @@
-import { TasksType } from "../App"
+
+import { TasksType } from "../components/todolists/Todolists"
 import { addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer, toggleIsCheckedAC } from "./taskReducer"
 
 let initialState: TasksType

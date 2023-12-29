@@ -1,10 +1,10 @@
 import { v1 } from "uuid";
-import { FilterType } from "../App";
 import { TodolistType, todolistAPI } from "../API/todolistAPI";
 import { ThunkCreatorType } from "../store/store";
 import { RequestStatusType, setAppError, setAppStatus } from "./appReducer";
 import { AxiosError } from "axios";
 import { handleAppServerError, handleServerNetworkError } from "../utils/errorUtils";
+import { FilterType } from "../components/todolists/Todolists";
 
 export type TodolistCompletedType = TodolistType & {filter: FilterType, status: RequestStatusType}
 

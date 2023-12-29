@@ -3,7 +3,7 @@ import './buttonStyles.scss'
 
 type DefaultButtonTypes = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 type Props = DefaultButtonTypes & {
-    callback: () => void
+    callback?: () => void
 }
 
 export const Button: React.FC<Props> = memo(({className, callback, children, ...restProps}) => {

@@ -35,7 +35,7 @@ export const Task: React.FC<PropsType> = memo(({todolistID, task, status}) => {
         <li className='task'>
             <Checkbox id={task.id} 
                 checked={task.status === TaskStatuses.Completed} 
-                callback={() => toggleIsCheckedHandler()}
+                onChange={() => toggleIsCheckedHandler()}
                 disabled={status !== 'loading' ? false : true}
             />
             <EditableSpan spanProps={{className: task.status === TaskStatuses.Completed ? "task_done" : ""}}

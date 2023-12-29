@@ -1,11 +1,11 @@
 import { v1 } from "uuid";
-import { TasksType } from "../App";
 import { CreateNewTodolist, RemoveTodolist, setTodolistStatusAC, setTodolists } from "./todolistReducer";
 import { ThunkCreatorType } from "../store/store";
 import { TaskModel, TaskType, todolistAPI } from "../API/todolistAPI";
 import { AxiosError } from "axios";
 import { handleAppServerError, handleServerNetworkError } from "../utils/errorUtils";
 import { setAppError, setAppStatus } from "./appReducer";
+import { TasksType } from "../components/todolists/Todolists";
 
 const defaultState: TasksType = {
     // todolistID1:[

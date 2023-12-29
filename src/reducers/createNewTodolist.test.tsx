@@ -1,4 +1,4 @@
-import { FilterType } from "../App";
+
 import { tasksReducer } from "./taskReducer";
 import { TodolistCompletedType, createNewTodolistAC } from "./todolistReducer";
 

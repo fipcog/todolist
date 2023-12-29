@@ -1,5 +1,4 @@
 
-import { FilterType } from "../App"
 import { TodolistCompletedType, changeTodolistFilterAC, changeTodolistTitleAC, createNewTodolistAC, removeTodolistAC, todolistReducer } from "./todolistReducer"
 
 let initialState : TodolistCompletedType[]
