@@ -24,14 +24,14 @@ const validationSchema = Yup.object().shape({
 export const Login: FC = () => {
     const isLogged = useSelector<AppRootStateType, boolean>(state => state.app.isLogged)
     const dispatch = useAppDispatch()
-    const {handleSubmit, getFieldProps, touched, errors, resetForm} = useFormik<LoginValues>({
+    const {handleSubmit, getFieldProps, touched, errors, resetForm, isSubmitting} = useFormik<LoginValues>({
         initialValues: {
             email: '',
             password: '',
             remember: false
         },
-        onSubmit: (values) => {
-            dispatch(logInTC(values))
+        onSubmit: async (values) => {
+            await dispatch(logInTC(values))
             resetForm()
         },
         validationSchema
